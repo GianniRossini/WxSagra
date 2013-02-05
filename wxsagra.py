@@ -5,7 +5,9 @@
 
 import wx
 import wx.html
-import abstractmodel
+
+#import abstractmodel - now moved inside wxsagra 
+#     astractmodule not present in portable python installation
 import sys
 import os
 import locale
@@ -163,6 +165,22 @@ def substr (s, start, length = None):
         return s[start:length]
 #
 # used to display autoclose message info
+
+class AbstractModel(object):
+
+    def __init__(self):
+        self.listeners = []
+
+    def addListener(self, listenerFunc):
+        self.listeners.append(listenerFunc)
+
+    def removeListener(self, listenerFunc):
+        self.listeners.remove(listenerFunc)
+
+    def update(self):
+        for eachFunc in self.listeners:
+            eachFunc(self)
+
 class MessageDialog(wx.Dialog):
     def __init__(self, message, title, ttl):
         wx.Dialog.__init__(self, None, -1, title,size=(400, 150))
@@ -581,10 +599,10 @@ def getfont(name, size, weight = 400,family = 0):
     })
 
 
-class SimpleName(abstractmodel.AbstractModel):
+class SimpleName(AbstractModel):
     
     def __init__(self, first="", last=""):
-        abstractmodel.AbstractModel.__init__(self)
+        AbstractModel.__init__(self)
         self.set(first, last)
         
     def set(self, first, last):
@@ -2357,7 +2375,10 @@ class WxSagra(wx.Frame):
 if __name__ == '__main__':
     #set italian language (for day week) 
     #locale.setlocale(locale.LC_ALL, "italian")
-    app = wx.PySimpleApp()
+
+    #  avoid deprecated message on wx.PySimpleApp()
+    #     app = wx.PySimpleApp()
+    app = wx.App(None) 
     frame = WxSagra(parent=None, id=-1)
     frame.Show()
     app.MainLoop()
