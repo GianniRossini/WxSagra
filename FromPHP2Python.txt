@@ -1,0 +1,48 @@
+Pensavo che sarebbe stato un lavoretto da niente, ma da PHP (con interfaccia grafica windows Winbinder) e Python (usando wx.python) 
+il salto non è stato facile.
+Perchè l'ho fatto?
+
+L'applicazione per le sagre parte da lontano. L'utilizzo da più di 10 anni per le sagre della U.S.D. Cogornese .. 
+e ora l'utilizzano molte altre sagre .. esempio i compagni di Spezia per la sagra del minestrone, per quella delle acciughe etc (tanto per citarne alcune ).
+
+Il disegno iniziale non è mio, ne' sono in possesso dei sorgenti e degli ambienti per effettuare modifiche o update. 
+La prima versione scontava i soliti errori dei figli di Bill Gates. 
+La base dati si appoggiava ad un DB (access). 
+Il disegno dell'output di stampa si appoggia su Cristal Report ... e per installarla su un'altro PC ci voleva un mago (!!!).
+
+Sulla base delle mie esperienze (sistemista IBM dal 1970) ho maturato la mania della portabilità e del fatto che un'applicazione, se serve(!) 
+deve sopravvivere nel tempo.
+Perciò, alla larga da Bill Gates e dai suoi tools. 
+Una sola concessione a Windows, ma solo dopo che se l'è fatto scrivere da altri (vedi la storia di Windos NT).
+
+2006 - PHP e Winbinder
+La base dati è un file di testo, così come il log che mutua il formato CSV per una facile importazione in ogni tipo di foglio di calcolo (compreso Excel).
+Il linguaggio scelto è il PHP che, oltre a essere un quasi standard per l'ambiente WEB, 
+grazie a WinBinder, permette la realizzazione di applicazioni finestrate in ambiente windows. 
+Il piede pagina grafico, se proprio lo vogliamo( ma se non c'è è silenziosamente ignorato), è un oggetto BMP di dimensioni definite (piede.bmp) 
+realizzabile con qualsiasi tool grafico.
+
+E dal 2006 a oggi  la sopravvivenza negli anni dell'applicazione non ha più avuto problemi, 
+nè ci sono stati rigetti nelll'installazione sui giocattoli che ogni due anni Bill Gates sforna per la disperazione degli sviluppatori seri.
+
+Per chi volesse controllare e commentare anche in modo critico quanto ho affermato l'applicazione è assolutamente 
+gratuita ed e' disponibile qui http://www.cogornese.it/svincoli/wbsagra.html.
+
+2012-2013 anche per imparare Python 
+Prima di partire con questo progetto non avevo nessuna conoscenza di Python e, venendo da anni di programmazione tradizionale, 
+mi muovo con difficoltà nella programmazione object oriented per la quale anche il PHP non va a nozze.
+Giusto comunque per incuriosirvi, visto che siete arrivati a leggere fino a qui ... se dovete fare un'applicazione WEB con utilizzo di DataBase 
+o fare porting di applicazioni MSAccess date un'occhiata al sito http://qcu.be e al mio tutorial su quell'ambiente di sviluppo
+( http://digidownload.libero.it/magiainformatica/doc_qcubed/qcubed-quick-start-guide_v210.pdf.)
+
+Il risultato del porting in Python della Gestione Sagre che, ammetto, ha richiesto molto più tempo e immaginazione di quanto pensassi 
+è qui assieme ad  un esempio del file portate, degli appunti di utilizzo e un esempio di piede.bmp  
+
+Chiedo umilmente agli esperti e ai puristi comprensione per il modo infantile di utilizzo della potenza di Python, 
+ma ho cercato di mantenere, convertendole. le strutture degli array PHP e la basi dati ( si fa per dire) originali e 
+ove possibile tutto il coding originale (che funziona).
+
+Ho messo il tutto anche su github - GianniRossini/WxSagra
+
+For today  that's all, folks!
+Gianni
