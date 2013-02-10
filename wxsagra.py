@@ -6,6 +6,9 @@
 import wx
 import wx.html
 
+# required to validate number  2013_02 - added control to enter only number 
+import string
+
 #import abstractmodel - now moved inside wxsagra 
 #     astractmodule not present in portable python installation
 import sys
@@ -85,7 +88,6 @@ orientations = {
     "portrait":     1,
     "landscape":    2,
 }
-
 
 
 
@@ -345,6 +347,63 @@ class HelpDialog(wx.Dialog) :
         # self.html.SetPage("<htm><body><p>This is a test.</p></body></html>")
         self.SetSizer(self.mainsizer)
 
+# 2013_02 - added control to enter only number 
+class CharValidator(wx.PyValidator):
+    def __init__(self,flag):
+         wx.PyValidator.__init__(self)
+         self.flag = flag
+         self.Bind(wx.EVT_CHAR, self.OnChar)
+
+    def Clone(self):
+         """
+         Note that every validator must implement the Clone() method.
+         """
+         return CharValidator(self.flag )
+
+    def Validate(self, win):
+         return True
+
+    def TransferToWindow(self):
+         return True 
+
+    def TransferFromWindow(self):
+         return True
+
+    def OnChar(self, evt):
+         key = chr(evt.GetKeyCode())
+         # if Char now is valid ( after a non valid was pressed)
+         # reset default background 
+         textCtrl = self.GetWindow()
+         # print textCtrl.GetBackgroundColour()
+         if textCtrl.GetBackgroundColour() == "pink" : 
+            # print textCtrl.GetBackgroundColour()
+            textCtrl.SetBackgroundColour("white")
+            textCtrl.Refresh()
+
+         # change background to pink if Char not allowed 
+         #   (flag is no_alfa (only numeric) 
+         if self.flag == "no-alpha" and key in string.letters :
+            # print "no_alpha" ,key
+            wx.Bell
+            textCtrl = self.GetWindow()
+            #wx.MessageBox("This field must contain some text!", "Error") 
+            textCtrl.SetBackgroundColour("pink") 
+            textCtrl.SetFocus() 
+            textCtrl.Refresh() 
+            return
+         if self.flag == "no-digit" and key in string.digits:
+            return
+         # print "validated " ,key
+         evt.Skip()
+
+# added to test if string is integer (isnumeric not ok with blank)
+
+def is_number(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
 
 def load_ini(file):
 #    if (isEmpty(@file)exists(file)):
@@ -658,7 +717,8 @@ class WxSagra(wx.Frame):
         wx.Frame.__init__(self, parent, id, 'WXSAGRA', 
                 size=(784, 640))
 
-        self.CreateStatusBar()
+        self.statustxt = self.CreateStatusBar()
+        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!") 
         self.LastState = 0
         self.InfoPortatePanel = ""
         if sys.platform[:3].lower() == "win" :
@@ -699,7 +759,6 @@ class WxSagra(wx.Frame):
         #menuBar.Append(editmenu,"&Edit")
         menuBar.Append(helpmenu, "&Help")
 
-
         panel = wx.Panel(self)   
 
         # we need this info to return focus to this frame after InfoPortate frame is shown
@@ -710,7 +769,8 @@ class WxSagra(wx.Frame):
         self.Bind(wx.EVT_CLOSE, self.OnCloseWindow) 
         self.textFields = {}
         self.labelFields = {}
-        # self.createTextFields(panel)     
+ 
+       # self.createTextFields(panel)     
         self.model = SimpleName()                         
         self.model.addListener(self.OnUpdate)             
         
@@ -1184,9 +1244,10 @@ class WxSagra(wx.Frame):
         static.SetBackgroundColour("White")
         textPos = (pos[0] + 1, pos[1])
         temp = wx.NewId()
+        # 2013_02 - added control to enter only number 
         self.textFields[label] = wx.TextCtrl(panel, temp, 
                 "0", size=(20, 15), pos=textPos,
-                style=wx.TE_RIGHT)
+                style=wx.TE_RIGHT, validator=CharValidator("no-alpha"))
         # self.textFields[label] e' un array dei campi di immissiome creati
         # essi sono identificati da label (Primi_1 ..Primi_2 etc )
         # per gestirli si usa self.textFields["Primi_1"].SetValue("1")  
@@ -1898,56 +1959,68 @@ class WxSagra(wx.Frame):
         
         # print"function totalcalc"
         # print
+        
+        # 2013 - we need additional  check on field value 
+        #       from dalla validation can arrive  blank 
+        #       to prevent int conversion error 
+        #       little function is_number() is provided 
+        
         self.total_ticket=0
-
         x = 0 
         for item in self.r["Primi"]:
             # printitem, 
-            tempqta = int(self.textFields [item].GetValue())
+            tempqta = self.textFields [item].GetValue()
+            if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Primi'][item]
-            self.Voce[x] = item
-            self.Portata[x] = 'Primi'
-            self.QtaRiga[x] = tempqta
-            self.TotaliRiga[x] = tempqta* self.r['Primi'][item]
-            self.PortataPrice[x] = self.r['Primi'][item]
+              tempqta = int(tempqta)
+              self.Voce[x] = item
+              self.Portata[x] = 'Primi'
+              self.QtaRiga[x] = tempqta
+              self.TotaliRiga[x] = tempqta* self.r['Primi'][item]
+              self.PortataPrice[x] = self.r['Primi'][item]
             x += 1
         x = 10 
         for item in self.r["Secondi"]:
             # printitem, 
-            tempqta = int(self.textFields [item].GetValue())
+            tempqta = self.textFields [item].GetValue()
+            if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Secondi'][item]
-            self.Voce[x] = item
-            self.Portata[x] = 'Secondi'
-            self.QtaRiga[x] = tempqta
-            self.TotaliRiga[x] = tempqta* self.r['Secondi'][item]
-            self.PortataPrice[x] = self.r['Secondi'][item]
+              tempqta = int(tempqta)
+              self.Voce[x] = item
+              self.Portata[x] = 'Secondi'
+              self.QtaRiga[x] = tempqta
+              self.TotaliRiga[x] = tempqta* self.r['Secondi'][item]
+              self.PortataPrice[x] = self.r['Secondi'][item]
             x += 1
         x = 20 
         for item in self.r["Contorni"]:
             # printitem, 
-            tempqta = int(self.textFields [item].GetValue())
+            tempqta = self.textFields [item].GetValue()
+            if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Contorni'][item]
-            self.Voce[x] = item
-            self.Portata[x] = 'Contorni'
-            self.QtaRiga[x] = tempqta
-            self.TotaliRiga[x] = tempqta* self.r['Contorni'][item]
-            self.PortataPrice[x] = self.r['Contorni'][item]
-
-            # handle ticket 
-            if (item.find ("@") != -1): 
+              tempqta = int(tempqta)
+              self.Voce[x] = item
+              self.Portata[x] = 'Contorni'
+              self.QtaRiga[x] = tempqta
+              self.TotaliRiga[x] = tempqta* self.r['Contorni'][item]
+              self.PortataPrice[x] = self.r['Contorni'][item]
+              # handle ticket 
+              if (item.find ("@") != -1): 
                 self.total_ticket= self.total_ticket + self.TotaliRiga[x]
-            #
+              #
             x += 1
         x = 30
         for item in self.r["Bevande"]:
             # printitem, 
-            tempqta = int(self.textFields [item].GetValue())
+            tempqta = self.textFields [item].GetValue()
+            if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Bevande'][item]
-            self.Voce[x] = item
-            self.Portata[x] = 'Bevande'
-            self.QtaRiga[x] = tempqta
-            self.TotaliRiga[x] = tempqta* self.r['Bevande'][item]
-            self.PortataPrice[x] = self.r['Bevande'][item]
+              tempqta = int(tempqta)
+              self.Voce[x] = item
+              self.Portata[x] = 'Bevande'
+              self.QtaRiga[x] = tempqta
+              self.TotaliRiga[x] = tempqta* self.r['Bevande'][item]
+              self.PortataPrice[x] = self.r['Bevande'][item]
             x += 1
         #
         # aggiorno il totale del memnu
@@ -1981,48 +2054,63 @@ class WxSagra(wx.Frame):
                 #  conteggio e visualizzazione dei piatti a numero limitato
                 #i = 0;
                 #print ss
+
+                # 2013 - we need additional  check on field value 
+                #       from dalla validation can arrive  blank 
+                #       to prevent int conversion error 
+                #       little function is_number() is provided 
+        
+
                 for item in self.r["Primi"]:
                     #print item, 
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
-                    tqta = int(self.textFields[item].GetValue())
-                    temp_res = self.r['QRES'][item] - tqta
-                    if (self.r['QINZ'][item] >= 0) :
+                    tempqta = self.textFields [item].GetValue()
+                    if is_number(tempqta) :
+                      tempqta = int(tempqta)
+                      temp_res = self.r['QRES'][item] - tempqta
+                      if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
-                    else:
+                      else:
                         self.labelFields[item].SetLabel("")
 
                 for item in self.r["Secondi"]:
                     #print item, 
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
-                    tqta = int(self.textFields[item].GetValue())
-                    temp_res = self.r['QRES'][item] - tqta
-                    if (self.r['QINZ'][item] >= 0) :
+                    tempqta = self.textFields [item].GetValue()
+                    if is_number(tempqta) :
+                      tempqta = int(tempqta)
+                      temp_res = self.r['QRES'][item] - tempqta
+                      if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
-                    else:
+                      else:
                         self.labelFields[item].SetLabel("")
 
                 for item in self.r["Contorni"]:
                     #print item, 
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
-                    tqta = int(self.textFields[item].GetValue())
-                    temp_res = self.r['QRES'][item] - tqta
-                    if (self.r['QINZ'][item] >= 0) :
+                    tempqta = self.textFields [item].GetValue()
+                    if is_number(tempqta) :
+                      tempqta = int(tempqta)
+                      temp_res = self.r['QRES'][item] - tempqta
+                      if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
-                    else:
+                      else:
                         self.labelFields[item].SetLabel("")
 
                 for item in self.r["Bevande"]:
                     #print item, 
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
-                    tqta = int(self.textFields[item].GetValue())
-                    temp_res = self.r['QRES'][item] - tqta
-                    if (self.r['QINZ'][item] >= 0) :
+                    tempqta = self.textFields [item].GetValue()
+                    if is_number(tempqta) :
+                      tempqta = int(tempqta)
+                      temp_res = self.r['QRES'][item] - tempqta
+                      if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
-                    else:
+                      else:
                         self.labelFields[item].SetLabel("")
 
 # not used - moved in OnStampa to abort print if total menu value is 0 is empty
