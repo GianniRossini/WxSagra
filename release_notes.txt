@@ -1,0 +1,190 @@
+English
+
+please read also info for updated version (now version _2p) at the end of this notes.
+
+WBsagra is solution for a menu for popular festivals realized for the U.S.D.Cogornese from Gianni Rossini
+(ma.gi.a.informatica s.a.s.) taking advantage of the semplicità and the elegance of Winbinder.
+
+Free use as is. 
+
+To use it please take this in mind:
+
+the file  portate.ini contain:
+ - the first 4 lines of heading for menu printing purpose
+ - 4 block of food's categories  where the voices [Primi] [Secondi] [Contorni] [Bevande]  are mandatory
+ - Inside of the blocks  can be present 1 or more (max 9 - from revison i) courses 
+   represented with description and price. 
+ 
+Use the present portate.ini file as template example. 
+
+The use in my intentions would have to be for dumb ..... and I hope that it is therefore. 
+
+The menu is printed on default printer in A4 format. 
+
+The program creates  a file with name <aaaa-mm-gg.csv> (now one comma-delimited and one dotcomma-delimited) 
+that contains total of courses and in the first line the total of the day.
+
+Installation - unzip with folder flag on  in c:\ or d:\ or other unit to pleasure.
+
+To run program 
+    launch the file .cmd <lancio_batch_sagra_cog_(version).cmd> if you want the window with the output of echo or the errors (!!).
+  or
+    launch the file .cmd <lancio_sagra_cog_(version).cmd> that it will open a window cmd that will disappear to the escape of the program. 
+    (version can be V2e or other relase...) by    
+     a link on desktop to the cmd <lancio_sagra_cog_(version).cmd> flagging in the property to 'execute in window reduced to icon'.
+
+If  is present a file named piede.bmp (I have put an example piede_cog.bmp) it comes printed in the low part of the page (must be 1100x478).
+
+for today, that's all folks.
+
+Gianni - magiainformatica@alice.it - se us at htt://www.cogornese.it
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Update 2012 may version 2p
+revised logic of override dialog functionality introduced in version 2o - Problem on some installation 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Update 2012 may version 2o
+
+added functionality to change only in printed output description of some item in bevande.
+To active this functionality and set item overridable put * in description. 
+Now we can override attribut of similar item (example is acqua minerale that can be frizzante or natural).
+
+Before this feature we had to insert two items (the number of bevande items is limited to 10) or we had to write by hand 
+the attribut info on paper to remenber the desired subtype of item (for acqua minerale, frizzante or naturale).
+If one of marked item (*) is present in menu at print time, a dialog windows is activated where you can enter the choice.
+The menu is printed after closing dialog windows whit overrided text.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Update 2011 july version 2n
+
+added functionality to add some item (example testaieu) that are counted as cash total but not printed in menu.
+This feature can be used to give ticket for self service.  
+To activate this special items add @ in front of description.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Update 2010 july version 2m
+
+added functionality to print menu omaggi, track omaggi in infoportate and added report piattiomaggi......csv
+xxxxdotcomma.cvs now has decimal separation with  comma  instead of dot (italian format for number)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Update 2010 july version 2j
+
+added flag in portate.ini (the flag can exists or not) to let user remove dataora info or progr_menu info from printed menu
+[stampa]
+debug=1           ( display on screen info about printer resolution ....)
+menu_data_ora=1   ( print on menu data+ora insted of only data)
+menu_progr=1      ( print  menu progr.) 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Update 2009 july version 2i
+
+Revised and tested limited number of course functionality. (now 10 in all food's categories)
+
+Found Error in code (thanks to Marco Rossini)
+there was an error in define in line
+if(!defined('ID_CONTORNI_BT010')) define('ID_CONTORNI_BT010', 1378);
+should be 
+if(!defined('ID_CONTORNI_BT010')) define('ID_CONTORNI_BT010', 1379);
+
+numer 1378 already used in BT019
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Update 2008 july verson 2h
+
+Revised and tested limited number of course functionality.
+Now you can change or insert ( ? xx  in relative line of file portate.ini) this info during session. 
+To make info active you must exit and reenter in the program - no data is loss !!!!
+
+You can also have till 10 course in quadrant (frame) 'contorni and bevande' . This extend to 8 + 8 + 10 + 10 = 36
+the courses the program can handle. (contorni and bevande pushbutton are stretched)
+Side effect: if you select all course - total overlap  piede.bmp
+
+In printed menu now there is a line with info about time and data ( someone want to commente out time) and
+menu number to manage priority.
+
+When infoportate windows is present  - infoportate pushbutton is disabled.
+ 
+Added second version of log file with name <aaaa-mm-gg_dotcomma.csv> for Excel_2003 compatibility (direct open with)
+
+---------------------------------------------------------------------------------
+Update 2007 september - verson 2d
+ present in zip file a version in test:  sagra_cog_v2d.phpw (launched by sagra_cog_v2d.cmd)
+ if you add in ini file after price a value (number of courses) separated by ? , the log (cvs file)  contains  the  residual courses as last field.
+     example: Penne agli Scampi = 7.00 ?81      (today you can serve a max of 81 penne agli scampi) 
+                the corrispondent line of yyyy-mm-dd.cvs can be:
+              Penne agli Scampi,7.00 ,1,7,80   ( delivered 1  - residual 80)
+     No value after price (old ini) is intended as -1 or nolimit. 
+     example: Acciughe allo Scabecio = 5.00 
+              Acciughe allo Scabecio,5.00,2,10,-3  (delivered 2 but no limit )
+               
+ you can use an auxiliary script -  portateinfo.phpw (launched by portateinfo.cmd) to display status, refreshed  every 10 sesconds, of courses delivered;
+ removed checkbox (never used in code) and reported in front of every course the residual if the course is limited in number ( ?xxx in ini file);
+ Added also a field to manage cash change (simply put here the banknote you get in cash field  and have the rest).
+ A trick to remember field with focus  when the windows leaves focus.
+
+---------------------------------------------------------------------------------   
+Update 2007 september verson 2e
+  A in depht study about more than one windows active - you can see what I learned in line // lesson.
+  
+  Now you can open a portate info windows (continuosly updated) with a pushbuton - close it - reopen - have it under main windows and close it. 
+  All without problem in my test environment at the moment. 
+
+---------------------------------------------------------------------------------
+Update 2007-august - version2b
+ headers to print  in section [intestazioni] of portate.ini  are not trimmed  so they can be centered  with space; 
+ adjusted vertical spaces in printout so an all-items menu (buon appetito) in not tuncated by piede.bmp;
+ Handled more portate (8 in every quadrant - 9 in bevande);
+ You can use label to describe group of dishes (se attached portate.ini) - the label description is displayed in screen group and printed in report;
+ in printed menu is reported  menu number and added a field for table info (to be compiled by waiter).
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Italiano
+
+WBsagra est un progetto per un menu delle Sagre realizzato per la U.S.D.Cogornese 
+da Gianni Rossini sfruttando la semplicità  e l'eleganza di Winbinder. 
+
+Utilizzo gratuito sempre che vi accontentiate ..  as is.
+
+utilizzo:
+
+il file portate.ini contiene
+- le prime 4 righe di intestazione che serviranno per la stampa del menu.
+- 4 blocchi di portate dove le voci [Primi] [Secondi] [Contorni] [Bevande] 
+  sono obbligatorie.
+- All'interno dei blocchi possono essere presenti 1 o più portate (max 9 - revision i) 
+  con descrizione e prezzo personalizzabili.
+
+utilizzare come traccia il file portate.ini presente.
+
+
+L'utilizzo nelle mie intenzioni dovrebbe essere a prova di ..... e spero 
+che sia così.
+
+La stampa avviene sulla stampante di default in formato A4.
+
+per la quadratura della cassa viene creato un file csv con nome aaaa-mm-gg.csv che riporta i progressivi 
+dei vari piatti e nella prima riga il totale del giorno.
+
+Installazione - unzip con creazione delle dir in c:\ o d:\ o altra unità a piacere
+
+RUN 
+
+Lancio del file cmd  <lancio_batch_sagra_cog.cmd> se si vuole che 
+           appaia nella finestra gli output degli echo o gli errori (!!).
+       
+       del file cmd  <lancio_sagra_cog.cmd> che aprirà una finestra cmd che sparirà
+           all'uscita del programma.
+
+       con un collegamento (crea collegamneto) al cmd precedente (lancio_sagra_cog.cmd) 
+       con l'avvertenza di sceglire nelle proprietà: esegui in finestra ridotta a icona.  
+        
+Se è presente un file <piede.bmp> (ho messo un esempio piede_cog.bmp) esso viene stampato
+nella parte bassa della pagina (deve essere 1100x478).
+
+Buon appetito.........
+
+per gli aggiornamenti vedi testo in inglese.  
