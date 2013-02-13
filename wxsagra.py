@@ -239,6 +239,39 @@ class MessageDialog(wx.Dialog):
             self.timer.Stop()
             self.Destroy()
 
+class BevandeOverrideDialog(wx.Dialog):
+     def __init__(self, Choices):
+        wx.Dialog.__init__(self, None, -1, 'Bevande Override dialog',size=(300,180))
+        self.Choices = Choices
+        self.Overrided = Choices
+        #self.clb = wx.CheckListBox(self, -1, wx.DefaultPosition,
+        #            wx.DefaultSize, self.Choices)
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        firstLbl = wx.StaticText(self, -1, label=(u"modifica solo per la stampa le seguenti voci:")) #, size=size)   
+        sizer.Add(firstLbl,0, wx.ALIGN_CENTER )
+        self.textOverride = {}
+        for eachLabel in self.Choices:
+            temp = wx.NewId()
+            self.textOverride[eachLabel] = wx.TextCtrl(self, temp,eachLabel,size=(275, -1))
+            sizer.Add(self.textOverride[eachLabel], 0, wx.EXPAND)
+            sizer.Add((2, 2), 0, wx.EXPAND) 
+
+        ok = wx.Button(self, wx.ID_OK, 'Ok')
+        sizer.Add(ok, 0, wx.ALIGN_RIGHT|wx.ALL^wx.TOP, 5)
+        self.SetSizer(sizer)
+        #self.Fit()
+
+        self.Center() # make it come up on the center of the screen
+
+     def GetChecked(self):
+        i=0
+        for eachLabel in self.Choices:
+            #print "passo :", i , " immesso :",self.textOverride[eachLabel].GetValue()
+            self.Overrided[i] = self.textOverride[eachLabel].GetValue()
+            i += 1
+        return self.Overrided
+
+
 class InfoPortate(wx.Frame):
     """"""
  
@@ -370,31 +403,34 @@ class CharValidator(wx.PyValidator):
          return True
 
     def OnChar(self, evt):
-         key = chr(evt.GetKeyCode())
-         # if Char now is valid ( after a non valid was pressed)
-         # reset default background 
-         textCtrl = self.GetWindow()
-         # print textCtrl.GetBackgroundColour()
-         if textCtrl.GetBackgroundColour() == "pink" : 
+        try:
+           key = chr(evt.GetKeyCode())
+        except ValueError:
+           return
+        
+        # if Char now is valid ( after a non valid was pressed)
+        # reset default background 
+        textCtrl = self.GetWindow()
+        # print textCtrl.GetBackgroundColour()
+        if textCtrl.GetBackgroundColour() == "pink" : 
             # print textCtrl.GetBackgroundColour()
             textCtrl.SetBackgroundColour("white")
             textCtrl.Refresh()
 
          # change background to pink if Char not allowed 
          #   (flag is no_alfa (only numeric) 
-         if self.flag == "no-alpha" and key in string.letters :
+        if self.flag == "no-alpha" and key in string.letters :
             # print "no_alpha" ,key
-            wx.Bell
             textCtrl = self.GetWindow()
             #wx.MessageBox("This field must contain some text!", "Error") 
             textCtrl.SetBackgroundColour("pink") 
             textCtrl.SetFocus() 
             textCtrl.Refresh() 
             return
-         if self.flag == "no-digit" and key in string.digits:
+        if self.flag == "no-digit" and key in string.digits:
             return
          # print "validated " ,key
-         evt.Skip()
+        evt.Skip()
 
 # added to test if string is integer (isnumeric not ok with blank)
 
@@ -784,6 +820,9 @@ class WxSagra(wx.Frame):
         self.TotaliRiga = [0]*100    # single item total
         self.QtaRiga = [0]*100       # single item qty
         self.PortataPrice = [0]*100  # single item qty
+
+        # add empty list for portata bevande overridable in print 
+        self.bevandeOverride = [] 
         self.totmenu = 0
 
         #
@@ -1251,6 +1290,7 @@ class WxSagra(wx.Frame):
         # self.textFields[label] e' un array dei campi di immissiome creati
         # essi sono identificati da label (Primi_1 ..Primi_2 etc )
         # per gestirli si usa self.textFields["Primi_1"].SetValue("1")  
+        self.textFields[label].SetSelection(-1,-1)
         self.Bind(wx.EVT_TEXT, self.TotalCalc, self.textFields[label])
         # print"x:" + str(temp) + " " + label
 
@@ -1965,11 +2005,35 @@ class WxSagra(wx.Frame):
         #       to prevent int conversion error 
         #       little function is_number() is provided 
         
+        ctl = event.GetEventObject()
+        value = ctl.GetValue()
+        # print "hai immesso" , value
+
+        # 2013 solution 2 to avoid blank and change to 0  
+        # better than previuos 
+
+        #if all(x in '0123456789-' for x in value):
+        if is_number(value):
+          intvalue = int(value)
+          ctl.ChangeValue(str(intvalue))
+        else:
+          print "Number only - force 0"
+          ctl.ChangeValue(str(0))
+          ctl.SetSelection(-1,-1)
+
         self.total_ticket=0
         x = 0 
         for item in self.r["Primi"]:
             # printitem, 
             tempqta = self.textFields [item].GetValue()
+            tempqta = int(tempqta)
+            self.Voce[x] = item
+            self.Portata[x] = 'Primi'
+            self.QtaRiga[x] = tempqta
+            self.TotaliRiga[x] = tempqta* self.r['Primi'][item]
+            self.PortataPrice[x] = self.r['Primi'][item]
+
+            """ superseeded by solution 2 on blank 
             if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Primi'][item]
               tempqta = int(tempqta)
@@ -1978,6 +2042,7 @@ class WxSagra(wx.Frame):
               self.QtaRiga[x] = tempqta
               self.TotaliRiga[x] = tempqta* self.r['Primi'][item]
               self.PortataPrice[x] = self.r['Primi'][item]
+            """
             x += 1
         x = 10 
         for item in self.r["Secondi"]:
@@ -2009,6 +2074,10 @@ class WxSagra(wx.Frame):
                 self.total_ticket= self.total_ticket + self.TotaliRiga[x]
               #
             x += 1
+
+        # clear bevande override
+        del self.bevandeOverride[:]
+
         x = 30
         for item in self.r["Bevande"]:
             # printitem, 
@@ -2021,6 +2090,9 @@ class WxSagra(wx.Frame):
               self.QtaRiga[x] = tempqta
               self.TotaliRiga[x] = tempqta* self.r['Bevande'][item]
               self.PortataPrice[x] = self.r['Bevande'][item]
+              # handle bevande override
+              if tempqta > 0 and item.find ("*") != -1 :
+                self.bevandeOverride.append(item)
             x += 1
         #
         # aggiorno il totale del memnu
@@ -2235,10 +2307,25 @@ class WxSagra(wx.Frame):
             dlg = MessageDialog('Nulla da stampare - Menu vuoto', 'Info', 1)
             dlg.ShowModal()
             return
+
         # print "Stampa"
+        
+        if len(self.bevandeOverride) > 0 :
+            # check bevande override
+            #Item_to_patch = ['check', 'list', 'box', 'another']
+            #myd = BevandeOverrideDialog(Item_to_patch)
+            
+            # pay attention we must clone list as it will be changed in dialog 
+            bevande_before = list(self.bevandeOverride)
+            myd = BevandeOverrideDialog(self.bevandeOverride)
+            if myd.ShowModal() != wx.ID_OK:
+                return
+            else:
+                #print " * Bevande text changed:", myd.GetChecked() 
+                bevande_overrided = myd.GetChecked()
+                #print bevande_overrided[0]
 
         # ini setting for print info about menu and data_ora moved after load ini setting
-
         doc = document(orientation = "portrait")
         doc.begin_document()
         doc.getsize()
@@ -2393,6 +2480,7 @@ class WxSagra(wx.Frame):
                     vert += 11
                 x += 1
 
+        # on menu printout bevande description with * can be overrided  
         x = 30 
         flag = 0
         for item in self.r["Bevande"]:
@@ -2410,7 +2498,16 @@ class WxSagra(wx.Frame):
               # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x] 
                 if self.QtaRiga[x] > 0 : 
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
-                    doc.text((55, 80 + vert), self.Voce[x])
+
+                    # on menu printout bevande description with * can be overrided  
+                    tempPortata = self.Voce[x]
+                    if len(self.bevandeOverride) > 0 and tempPortata.find ("*") != -1 :
+                       for i_override in range(len(self.bevandeOverride)):
+                            # print i_override, self.Voce[x] , bevande_before[i_override],bevande_overrided[i_override]
+                            if self.Voce[x] == bevande_before[i_override]:
+                               tempPortata = bevande_overrided[i_override]
+
+                    doc.text((55, 80 + vert), tempPortata)
                     doc.text((360, 80 + vert), u"€")
                     doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
                     vert += 11
@@ -2419,7 +2516,7 @@ class WxSagra(wx.Frame):
         doc.setfont("Arial",18)
         doc.text( (290 , 80+ vert) , "Totale")
         doc.text((360, 80 + vert), u"€")
-        doc.text((400, 80 + vert), str(self.totmenu))
+        doc.text((400, 80 + vert), str(self.totmenu-self.total_ticket))
 
         #doc.rectangle((72, 72, 72*6, 72*3))
         #doc.line((72, 72), (72*6, 72*3))
@@ -2479,7 +2576,6 @@ class WxSagra(wx.Frame):
             "Menu Sagre ", wx.OK)
         dlg.ShowModal()
         dlg.Destroy()
-
 
     def OnHelp(self, e) :
         """Displays help dialog box"""
