@@ -1288,8 +1288,8 @@ class WxSagra(wx.Frame):
                 "0", size=(20, 15), pos=textPos,
                 style=wx.TE_RIGHT, validator=CharValidator("no-alpha"))
         # self.textFields[label] e' un array dei campi di immissiome creati
-        # essi sono identificati da label (Primi_1 ..Primi_2 etc )
-        # per gestirli si usa self.textFields["Primi_1"].SetValue("1")  
+        # essi sono identificati da label (descr portata 1 ..descr portate 2 etc )
+        # per gestirli si usa self.textFields["descr portata 1"].SetValue("1")  
         self.textFields[label].SetSelection(-1,-1)
         self.Bind(wx.EVT_TEXT, self.TotalCalc, self.textFields[label])
         # print"x:" + str(temp) + " " + label
@@ -2304,7 +2304,7 @@ class WxSagra(wx.Frame):
 
     def OnStampa(self, event) :
         if self.totmenu == 0:
-            dlg = MessageDialog('Nulla da stampare - Menu vuoto', 'Info', 1)
+            dlg = MessageDialog('Nulla da stampare - Menu vuoto', 'Info', 2)
             dlg.ShowModal()
             return
 
@@ -2377,8 +2377,8 @@ class WxSagra(wx.Frame):
         filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
         piatti_log = []
         # print filename
-        if os.path.exists(filename):
-           piatti_log = load_tabbed_file(filename)
+        #if os.path.exists(filename):
+           #piatti_log = load_tabbed_file(filename)
            #self.menunumero = piatti_log[0][2]
            # print "ultimo menu" , piatti_log[0][2]
         doc.setfont("Arial",10, None,1) 
@@ -2393,8 +2393,10 @@ class WxSagra(wx.Frame):
         #                   
         # stampa piede.bmp  
         #                   
-        doc.image((1,580),"piede.bmp",( 500,200))
-
+        if os.path.exists("piede.bmp"):
+            doc.image((1,580),"piede.bmp",( 500,200))
+        else:
+            print "Non presente file grafico piede.bmp"
 
         # test se gruppo contiene portata da stampare
         x = 0 
