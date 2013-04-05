@@ -59,6 +59,8 @@ try:
 except:
     ImageWin = None
 
+script_version = "1.02"
+
 # reqiered by class Document
 scale_factor = 20
 prdict = None
@@ -298,6 +300,15 @@ class InfoPortate(wx.Frame):
         sizer.Add(self.instructions, 0, flags, 5)
 
         now = datetime.datetime.now()
+        filename =  "piatti_omaggi"+ str(now.strftime("%Y-%m-%d")) + ".csv"
+        # get total cash of omaggi
+        piatti_log_omaggi = []
+        flag_total_omaggi = 0
+        if os.path.exists(filename):
+            flag_total_omaggi = 1
+            piatti_log_omaggi = load_tabbed_file(filename)
+            print piatti_log_omaggi[0][3]
+
         filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
         piatti_log = []
         # print filename
@@ -330,8 +341,12 @@ class InfoPortate(wx.Frame):
                     #add empty line 
                     self.list_ctrl.InsertStringItem(self.index, "----------------")
                     self.list_ctrl.SetStringItem(self.index, 1, "-----------")
-                    self.list_ctrl.SetStringItem(self.index, 2, "-----------")
-                    self.list_ctrl.SetStringItem(self.index, 3, "-----------")
+                    if (flag_total_omaggi == 0):
+                        self.list_ctrl.SetStringItem(self.index, 2, "-----------")
+                        self.list_ctrl.SetStringItem(self.index, 3, "-----------")
+                    else :
+                        self.list_ctrl.SetStringItem(self.index, 2, "---- omaggi")
+                        self.list_ctrl.SetStringItem(self.index, 3, "-" + piatti_log_omaggi[0][3])
                     self.index += 1
 
 
@@ -754,7 +769,7 @@ class WxSagra(wx.Frame):
                 size=(784, 640))
 
         self.statustxt = self.CreateStatusBar()
-        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!") 
+        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version) 
         self.LastState = 0
         self.InfoPortatePanel = ""
         if sys.platform[:3].lower() == "win" :
@@ -831,6 +846,7 @@ class WxSagra(wx.Frame):
         self.debug = 0
         self.menu_data_ora = 0
         self.menu_progr = 0
+        self.flag_omaggio = 0
 
         self.r = load_ini('portate.ini')
         # print self.r
@@ -2229,6 +2245,9 @@ class WxSagra(wx.Frame):
         #    t = t + self.TotaliRiga[i]
         #self.GrandTotal.SetValue("%.2f" % t)
 
+        self.flag_omaggio = 0
+
+
     def OnInfoPortate(self, event) :
         # show a new windows (and give focus to it)
         new_frame = InfoPortate()
@@ -2299,6 +2318,37 @@ class WxSagra(wx.Frame):
         # clear for next menu
         self.val_TotPrec.SetValue("%.2f" % self.totmenu)
         self.val_TotalTicketPrec.SetLabel("ticket menu prec %.2f" % self.total_ticket) 
+
+        # save also omaggi in a companion piatti_omaggiaaaa-mm-gg 
+        # portate quantity reported for omaggi are only for reference
+        # real portate quantity are alredy reported in piatti_log 
+        # total we have in cash is total in piatti - total in piatti_omaggi
+        if (self.flag_omaggio == 1) :
+            filename =  "piatti_omaggi"+ str(now.strftime("%Y-%m-%d")) + ".csv"
+            piatti_log = []
+            # print filename
+            # print "self.menunumero: ", self.menunumero 
+            if os.path.exists(filename):
+                piatti_log = load_tabbed_file(filename)
+
+            # file not exixst - create first line of piatti_log list
+            if (len(piatti_log) == 0 ) :
+                # create array in memory
+                # descr, totale, numero menu, valore
+                line ="Totali,0,0,0,0" ;
+                res = line.split(",")
+                piatti_log.append(res); 
+                i=1;
+                # initialize piatti_log
+                self.Piatti_Log_init( piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
+                # print piatti_log
+        
+            # print  "\n  Update array -piatt_log - cvs" ;
+            self.Piatti_Log_update(piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
+            self.menunumero = piatti_log[0][2]
+            save_tabbed_file(filename, piatti_log)
+        # end omaggi
+
         self.OnAnnulla(True)
 
 
@@ -2520,6 +2570,9 @@ class WxSagra(wx.Frame):
         doc.text((360, 80 + vert), u"€")
         doc.text((400, 80 + vert), str(self.totmenu-self.total_ticket))
 
+        if ( self.flag_omaggio == 1 ):
+            doc.text( (460 , 80+ vert) , "Omaggio")
+
         #doc.rectangle((72, 72, 72*6, 72*3))
         #doc.line((72, 72), (72*6, 72*3))
 
@@ -2532,6 +2585,9 @@ class WxSagra(wx.Frame):
     def OnOmaggi(self, event) :
         # print "Omaggi"
         temp = ""
+        self.flag_omaggio = 1
+        self.OnStampa(True)
+
     def OnClose(self, event) :
         """Prompt to save modified tapes when closing"""
 
@@ -2573,7 +2629,8 @@ class WxSagra(wx.Frame):
     def OnAbout(self,e):
         """Displays about dialog box"""
         dlg = wx.MessageDialog(self, 
-            "Menu sagre by Gianni Rossini - magiainformatica@alice.it \n\n" + 
+            "          Menu sagre version v " +script_version + 
+            "\nby Gianni Rossini - magiainformatica@alice.it \n" + 
             "Please see additional information in accompanying help file.",
             "Menu Sagre ", wx.OK)
         dlg.ShowModal()
