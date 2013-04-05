@@ -307,7 +307,7 @@ class InfoPortate(wx.Frame):
         if os.path.exists(filename):
             flag_total_omaggi = 1
             piatti_log_omaggi = load_tabbed_file(filename)
-            print piatti_log_omaggi[0][3]
+            # print piatti_log_omaggi[0][3]
 
         filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
         piatti_log = []
