@@ -6,10 +6,10 @@
 import wx
 import wx.html
 
-# required to validate number  2013_02 - added control to enter only number 
+# required to validate number  2013_02 - added control to enter only number
 import string
 
-#import abstractmodel - now moved inside wxsagra 
+#import abstractmodel - now moved inside wxsagra
 #     astractmodule not present in portable python installation
 import sys
 import os
@@ -21,7 +21,7 @@ import calendar
 import datetime
 from collections import OrderedDict
 
-# from MSWinPrint I used class document 
+# from MSWinPrint I used class document
 #  here is license from original MSwinPrint
 
 """
@@ -47,7 +47,7 @@ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import win32gui, win32ui, win32print, win32con
@@ -59,7 +59,7 @@ try:
 except:
     ImageWin = None
 
-script_version = "1.02"
+script_version = "1.03"
 
 # reqiered by class Document
 scale_factor = 20
@@ -108,34 +108,34 @@ ID_EXIT=110
 
 """
 wxID_WXSAGRA,
-wxID_WXSAGRAANNULLA, 
-wxID_WXSAGRAB1DISP, 
-wxID_WXSAGRABUTTONB1, 
-wxID_WXSAGRABUTTONC1, 
-wxID_WXSAGRABUTTONP1, 
-wxID_WXSAGRABUTTONP2,
-wxID_WXSAGRABUTTONS1, 
-wxID_WXSAGRAC1DISP, 
-wxID_WXSAGRADATATIME_MENUPROGR,
-wxID_WXSAGRAESCI, 
-wxID_WXSAGRAINFOPORTATE, 
-
-
-wxID_WXSAGRABUTTONP0, 
+wxID_WXSAGRAANNULLA,
+wxID_WXSAGRAB1DISP,
+wxID_WXSAGRABUTTONB1,
+wxID_WXSAGRABUTTONC1,
 wxID_WXSAGRABUTTONP1,
-wxID_WXSAGRABUTTONP2, 
+wxID_WXSAGRABUTTONP2,
+wxID_WXSAGRABUTTONS1,
+wxID_WXSAGRAC1DISP,
+wxID_WXSAGRADATATIME_MENUPROGR,
+wxID_WXSAGRAESCI,
+wxID_WXSAGRAINFOPORTATE,
+
+
+wxID_WXSAGRABUTTONP0,
+wxID_WXSAGRABUTTONP1,
+wxID_WXSAGRABUTTONP2,
 wxID_WXSAGRABUTTONP3,
-wxID_WXSAGRABUTTONP4, 
+wxID_WXSAGRABUTTONP4,
 wxID_WXSAGRABUTTONP5,
-wxID_WXSAGRABUTTONP6, 
+wxID_WXSAGRABUTTONP6,
 wxID_WXSAGRABUTTONP7,
-wxID_WXSAGRABUTTONP8, 
+wxID_WXSAGRABUTTONP8,
 wxID_WXSAGRABUTTONP9,
 
-wxID_WXSAGRAOMAGGI, 
-wxID_WXSAGRAP0DISP, 
+wxID_WXSAGRAOMAGGI,
+wxID_WXSAGRAP0DISP,
 wxID_WXSAGRAP1DISP,
-wxID_WXSAGRAP2DISP, 
+wxID_WXSAGRAP2DISP,
 wxID_WXSAGRAP3DISP,
 wxID_WXSAGRAP4DISP,
 wxID_WXSAGRAP5DISP,
@@ -144,46 +144,46 @@ wxID_WXSAGRAP7DISP,
 wxID_WXSAGRAP8DISP,
 wxID_WXSAGRAP9DISP,
 
-wxID_WXSAGRAPANEL1, 
-wxID_WXSAGRAQTB1, 
-wxID_WXSAGRAQTC1, 
-wxID_WXSAGRAQTP1, 
-wxID_WXSAGRAQTP2, 
-wxID_WXSAGRAQTS1, 
-wxID_WXSAGRAREGISTRA, 
-wxID_WXSAGRAS1DISP, 
-wxID_WXSAGRASTAMPA, 
+wxID_WXSAGRAPANEL1,
+wxID_WXSAGRAQTB1,
+wxID_WXSAGRAQTC1,
+wxID_WXSAGRAQTP1,
+wxID_WXSAGRAQTP2,
+wxID_WXSAGRAQTS1,
+wxID_WXSAGRAREGISTRA,
+wxID_WXSAGRAS1DISP,
+wxID_WXSAGRASTAMPA,
 
-wxID_WXSAGRASTATICTEXT1, 
-wxID_WXSAGRASTATICTEXT2, 
-wxID_WXSAGRASTATICTEXT3, 
-wxID_WXSAGRASTATICTEXT4, 
-wxID_WXSAGRASTORNA, 
-wxID_WXSAGRATEXTCTRL1, 
-wxID_WXSAGRATEXTCTRL2, 
-wxID_WXSAGRATEXTCTRL3, 
+wxID_WXSAGRASTATICTEXT1,
+wxID_WXSAGRASTATICTEXT2,
+wxID_WXSAGRASTATICTEXT3,
+wxID_WXSAGRASTATICTEXT4,
+wxID_WXSAGRASTORNA,
+wxID_WXSAGRATEXTCTRL1,
+wxID_WXSAGRATEXTCTRL2,
+wxID_WXSAGRATEXTCTRL3,
 """
 
 wxID_WXSAGRASTATICBOX1 = wx.NewId()
 wxID_WXSAGRASTATICBOX2 = wx.NewId()
 wxID_WXSAGRASTATICBOX3 = wx.NewId()
-wxID_WXSAGRASTATICBOX4 = wx.NewId() 
+wxID_WXSAGRASTATICBOX4 = wx.NewId()
 
 wxID_WXSAGRAINFOPRINTER = wx.NewId()
 wxID_WXSAGRADATATIME_MENUPROGR = wx.NewId()
-wxID_WXSAGRALBL_TOTPREC = wx.NewId() 
-wxID_WXSAGRALBL_CASSA = wx.NewId() 
+wxID_WXSAGRALBL_TOTPREC = wx.NewId()
+wxID_WXSAGRALBL_CASSA = wx.NewId()
 wxID_WXSAGRAVAL_CASSA = wx.NewId()
-wxID_WXSAGRALBL_RESTO = wx.NewId() 
+wxID_WXSAGRALBL_RESTO = wx.NewId()
 wxID_WXSAGRAVAL_RESTO = wx.NewId()
 
 wxID_WXSAGRASTATICTEXTTOTALE = wx.NewId()
-wxID_WXSAGRATOTALE = wx.NewId() 
-wxID_WXSAGRAVAL_TOTPREC = wx.NewId() 
+wxID_WXSAGRATOTALE = wx.NewId()
+wxID_WXSAGRAVAL_TOTPREC = wx.NewId()
 
 
 def substr (s, start, length = None):
-    """Returns the portion of string specified by the start and length 
+    """Returns the portion of string specified by the start and length
     parameters.
     """
     if len(s) >= start:
@@ -218,7 +218,7 @@ class MessageDialog(wx.Dialog):
         self.CenterOnScreen(wx.BOTH)
         self.timeToLive = ttl
 
-        stdBtnSizer = self.CreateStdDialogButtonSizer(wx.OK|wx.CANCEL) 
+        stdBtnSizer = self.CreateStdDialogButtonSizer(wx.OK|wx.CANCEL)
         stMsg = wx.StaticText(self, -1, message)
         self.stTTLmsg = wx.StaticText(self, -1, 'visualizza per %d s...'%self.timeToLive)
 
@@ -230,7 +230,7 @@ class MessageDialog(wx.Dialog):
 
         self.timer = wx.Timer(self)
         self.timer.Start(1000)        #Generate a timer event every second
-        self.timeToLive = ttl 
+        self.timeToLive = ttl
         self.Bind(wx.EVT_TIMER, self.onTimer, self.timer)
 
     def onTimer(self, evt):
@@ -249,14 +249,14 @@ class BevandeOverrideDialog(wx.Dialog):
         #self.clb = wx.CheckListBox(self, -1, wx.DefaultPosition,
         #            wx.DefaultSize, self.Choices)
         sizer = wx.BoxSizer(wx.VERTICAL)
-        firstLbl = wx.StaticText(self, -1, label=(u"modifica solo per la stampa le seguenti voci:")) #, size=size)   
+        firstLbl = wx.StaticText(self, -1, label=(u"modifica solo per la stampa le seguenti voci:")) #, size=size)
         sizer.Add(firstLbl,0, wx.ALIGN_CENTER )
         self.textOverride = {}
         for eachLabel in self.Choices:
             temp = wx.NewId()
             self.textOverride[eachLabel] = wx.TextCtrl(self, temp,eachLabel,size=(275, -1))
             sizer.Add(self.textOverride[eachLabel], 0, wx.EXPAND)
-            sizer.Add((2, 2), 0, wx.EXPAND) 
+            sizer.Add((2, 2), 0, wx.EXPAND)
 
         ok = wx.Button(self, wx.ID_OK, 'Ok')
         sizer.Add(ok, 0, wx.ALIGN_RIGHT|wx.ALL^wx.TOP, 5)
@@ -276,7 +276,7 @@ class BevandeOverrideDialog(wx.Dialog):
 
 class InfoPortate(wx.Frame):
     """"""
- 
+
     #----------------------------------------------------------------------
     def __init__(self):
         """Constructor"""
@@ -284,7 +284,7 @@ class InfoPortate(wx.Frame):
         # Add a panel so it looks the correct on all platforms
         panel = wx.Panel(self)
 
-        self.timeToLive = 10 
+        self.timeToLive = 10
         #stMsg = wx.StaticText(self, -1, message)
         msg = str('Situazione piatti venduti - visualizza per %d s...'%self.timeToLive)
 
@@ -293,7 +293,7 @@ class InfoPortate(wx.Frame):
         self.timer = wx.Timer(self)
         self.timer.Start(1000)        #Generate a timer event every second
 
-        self.Bind(wx.EVT_TIMER, self.onTimer, self.timer) 
+        self.Bind(wx.EVT_TIMER, self.onTimer, self.timer)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
         flags = wx.ALL|wx.CENTER
@@ -312,7 +312,7 @@ class InfoPortate(wx.Frame):
         filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
         piatti_log = []
         # print filename
-        self.menunumero = 0        
+        self.menunumero = 0
         if os.path.exists(filename):
             piatti_log = load_tabbed_file(filename)
             self.index = 0
@@ -324,7 +324,7 @@ class InfoPortate(wx.Frame):
             self.list_ctrl.InsertColumn(1, 'Costo unit.', width=70)
             self.list_ctrl.InsertColumn(2, 'menu/q.ta', width=70)
             self.list_ctrl.InsertColumn(3, 'totale', width=80 )
-            i= 0            
+            i= 0
             for y in range(i,len(piatti_log)) :
                 line = "Line %s" % self.index
                 self.list_ctrl.InsertStringItem(self.index, piatti_log[y][0])
@@ -332,13 +332,13 @@ class InfoPortate(wx.Frame):
                 if y > 0 :
                     self.list_ctrl.SetStringItem(self.index, 1, piatti_log[y][1])
                 else:
-                    self.list_ctrl.SetStringItem(self.index, 1, str(now.strftime("%Y-%m-%d"))) 
+                    self.list_ctrl.SetStringItem(self.index, 1, str(now.strftime("%Y-%m-%d")))
                 self.list_ctrl.SetStringItem(self.index, 2, piatti_log[y][2])
                 self.list_ctrl.SetStringItem(self.index, 3, piatti_log[y][3])
                 self.index += 1
-                # add empty line 
+                # add empty line
                 if self.index == 1 :
-                    #add empty line 
+                    #add empty line
                     self.list_ctrl.InsertStringItem(self.index, "----------------")
                     self.list_ctrl.SetStringItem(self.index, 1, "-----------")
                     if (flag_total_omaggi == 0):
@@ -352,7 +352,7 @@ class InfoPortate(wx.Frame):
 
             sizer.Add(self.list_ctrl, 0, wx.ALL|wx.EXPAND, 5)
             # sizer.Add(btn, 0, wx.ALL|wx.CENTER, 5)
- 
+
         closeBtn = wx.Button(panel, label="Send and Close")
         closeBtn.Bind(wx.EVT_BUTTON, self.onClose)
 
@@ -375,14 +375,14 @@ class InfoPortate(wx.Frame):
         self.list_ctrl.SetStringItem(self.index, 1, "01/19/2010")
         self.list_ctrl.SetStringItem(self.index, 2, "USA")
         self.index += 1
- 
+
     #----------------------------------------------------------------------
     def onClose(self, event):
         """
         close frame
         """
         self.Close()
- 
+
 
 class HelpDialog(wx.Dialog) :
     """Display the help file"""
@@ -395,7 +395,7 @@ class HelpDialog(wx.Dialog) :
         # self.html.SetPage("<htm><body><p>This is a test.</p></body></html>")
         self.SetSizer(self.mainsizer)
 
-# 2013_02 - added control to enter only number 
+# 2013_02 - added control to enter only number
 class CharValidator(wx.PyValidator):
     def __init__(self,flag):
          wx.PyValidator.__init__(self)
@@ -412,7 +412,7 @@ class CharValidator(wx.PyValidator):
          return True
 
     def TransferToWindow(self):
-         return True 
+         return True
 
     def TransferFromWindow(self):
          return True
@@ -422,25 +422,25 @@ class CharValidator(wx.PyValidator):
            key = chr(evt.GetKeyCode())
         except ValueError:
            return
-        
+
         # if Char now is valid ( after a non valid was pressed)
-        # reset default background 
+        # reset default background
         textCtrl = self.GetWindow()
         # print textCtrl.GetBackgroundColour()
-        if textCtrl.GetBackgroundColour() == "pink" : 
+        if textCtrl.GetBackgroundColour() == "pink" :
             # print textCtrl.GetBackgroundColour()
             textCtrl.SetBackgroundColour("white")
             textCtrl.Refresh()
 
-         # change background to pink if Char not allowed 
-         #   (flag is no_alfa (only numeric) 
+         # change background to pink if Char not allowed
+         #   (flag is no_alfa (only numeric)
         if self.flag == "no-alpha" and key in string.letters :
             # print "no_alpha" ,key
             textCtrl = self.GetWindow()
-            #wx.MessageBox("This field must contain some text!", "Error") 
-            textCtrl.SetBackgroundColour("pink") 
-            textCtrl.SetFocus() 
-            textCtrl.Refresh() 
+            #wx.MessageBox("This field must contain some text!", "Error")
+            textCtrl.SetBackgroundColour("pink")
+            textCtrl.SetFocus()
+            textCtrl.Refresh()
             return
         if self.flag == "no-digit" and key in string.digits:
             return
@@ -472,13 +472,13 @@ def load_ini(file):
     r={}
     while (x < len(c) ):
         line = c[x].strip()
-        # print line 
+        # print line
         x += 1
         if (line != ""):
             if (re.findall(pattern, line)):
-                if (len(cfg) > 0 ) : 
+                if (len(cfg) > 0 ) :
                     #print chiave
-                    #print cfg 
+                    #print cfg
                     r[chiave] = cfg
                     #print r
                     #print "\n"
@@ -488,7 +488,7 @@ def load_ini(file):
                 #print "\nchiave is: [" + chiave +"]"
                 ordine = 0
                 cfg = OrderedDict()
-                if (chiave == "Primi") : 
+                if (chiave == "Primi") :
                     piatti = 1
                     #serviti = {}
                     serviti = OrderedDict()
@@ -501,7 +501,7 @@ def load_ini(file):
                 #k = str(ordine)+ "-"+ k
                 ordine += 1
                 # print "chiave is: " + chiave + " k is: " + k + " v is: " + v
-                # is better not remove trailing blank so we can position and center by adding space 
+                # is better not remove trailing blank so we can position and center by adding space
                 if (substr(k,0,4) != "riga") : v = v.strip()
                 #addedd qta iniziale
                 if (piatti == 0) :
@@ -519,12 +519,12 @@ def load_ini(file):
                         cfg[k] = float (p)
                         serviti[k] = int(q)
                     else :
-                        # print "--chiave is: " + chiave + " k is: " + k +" v is: " + v 
+                        # print "--chiave is: " + chiave + " k is: " + k +" v is: " + v
                         cfg[k] = float(v)
                         serviti[k] = -1
-# at end of file 
+# at end of file
     # print "\n at end chiave is " + chiave
-    # print cfg 
+    # print cfg
     r[chiave] = cfg
     r['QINZ'] = serviti
     r['QRES'] = serviti
@@ -532,7 +532,7 @@ def load_ini(file):
     return r
 
 # load_tabbed_file(string filepath)
-# loads a file with content saparated by comma (csv 
+# loads a file with content saparated by comma (csv
 #
 def load_tabbed_file(filename):
     # print filename
@@ -542,7 +542,7 @@ def load_tabbed_file(filename):
       line = line.strip()
       res = line.split(",")
       output.append(res)
-    return output 
+    return output
 
 def save_tabbed_file(filename,portate):
     # print "save tabbed file on " , filename
@@ -560,12 +560,12 @@ def save_tabbed_file(filename,portate):
             i= i + 1
         fp.write("%s\n" % item[i])
         # fp.write ("\n")
-    fp.close 
+    fp.close
     return
 
 # from original work MSWinPrint.py
 # Copyright 2006-2012 Chris Gonnerman.
-# see license in first line (20 ... ) of this module 
+# see license in first line (20 ... ) of this module
 class document:
 
     def __init__(self, printer = None, papersize = None, orientation = None):
@@ -598,8 +598,8 @@ class document:
         # load default settings
         devmode = win32print.GetPrinter(self.hprinter, 8)["pDevMode"]
         # added to test
-        
-        
+
+
         # change paper size and orientation
         if self.papersize is not None:
             devmode.PaperSize = paper_sizes[self.papersize]
@@ -687,9 +687,9 @@ class document:
         bmp = Image.open (name)
         dib = ImageWin.Dib(bmp)
         endpos = (position[0] + size[0], position[1] + size[1])
-        dest = (position[0] * scale_factor, 
+        dest = (position[0] * scale_factor,
                -1 * position[1] * scale_factor,
-               endpos[0] * scale_factor, 
+               endpos[0] * scale_factor,
                -1 * endpos[1] * scale_factor)
         dib.draw(self.hdc, dest)
 
@@ -740,15 +740,15 @@ def getfont(name, size, weight = 400,family = 0):
 
 
 class SimpleName(AbstractModel):
-    
+
     def __init__(self, first="", last=""):
         AbstractModel.__init__(self)
         self.set(first, last)
-        
+
     def set(self, first, last):
         self.first = first
         self.last = last
-        self.update()                                     
+        self.update()
 
 
 ##class HelpDialog(wx.Dialog) :
@@ -763,13 +763,13 @@ class SimpleName(AbstractModel):
 ##        self.SetSizer(self.mainsizer)
 
 class WxSagra(wx.Frame):
-    
+
     def __init__(self, parent, id):
-        wx.Frame.__init__(self, parent, id, 'WXSAGRA', 
+        wx.Frame.__init__(self, parent, id, 'WXSAGRA',
                 size=(784, 640))
 
         self.statustxt = self.CreateStatusBar()
-        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version) 
+        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version)
         self.LastState = 0
         self.InfoPortatePanel = ""
         if sys.platform[:3].lower() == "win" :
@@ -796,8 +796,8 @@ class WxSagra(wx.Frame):
         filemenu.AppendSeparator()
         filemenu.Append(ID_EXIT,"E&xit"," Terminate the program")
         wx.EVT_MENU(self, ID_EXIT, self.OnExit)
-        
-        helpmenu = wx.Menu()       
+
+        helpmenu = wx.Menu()
         helpmenu.Append(ID_HELP, "&Manual"," see appunti.txt")
         wx.EVT_MENU(self, ID_HELP, self.OnHelp)
         helpmenu.Append(ID_ABOUT, "A&bout"," Information about this program")
@@ -810,38 +810,38 @@ class WxSagra(wx.Frame):
         #menuBar.Append(editmenu,"&Edit")
         menuBar.Append(helpmenu, "&Help")
 
-        panel = wx.Panel(self)   
+        panel = wx.Panel(self)
 
         # we need this info to return focus to this frame after InfoPortate frame is shown
         self.main_win_frame = panel
 
 
         panel.SetBackgroundColour("White")
-        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow) 
+        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
         self.textFields = {}
         self.labelFields = {}
- 
-       # self.createTextFields(panel)     
-        self.model = SimpleName()                         
-        self.model.addListener(self.OnUpdate)             
-        
+
+       # self.createTextFields(panel)
+        self.model = SimpleName()
+        self.model.addListener(self.OnUpdate)
+
         # array (liste in python ) utilized:
-        #      to dynamic menu total calculation (TotalCalc) 
-        #      to print menu (OnStampa) 
-        #      to update log of the day (piattiaaaa-mm-gg (OnRegistra) 
+        #      to dynamic menu total calculation (TotalCalc)
+        #      to print menu (OnStampa)
+        #      to update log of the day (piattiaaaa-mm-gg (OnRegistra)
 
         self.Voce = [""] * 100       # item (portata)
-        self.Portata = [""] * 100    #group of item (primi .secondi etc) 
+        self.Portata = [""] * 100    #group of item (primi .secondi etc)
         self.TotaliRiga = [0]*100    # single item total
         self.QtaRiga = [0]*100       # single item qty
         self.PortataPrice = [0]*100  # single item qty
 
-        # add empty list for portata bevande overridable in print 
-        self.bevandeOverride = [] 
+        # add empty list for portata bevande overridable in print
+        self.bevandeOverride = []
         self.totmenu = 0
 
         #
-        # load configuration - menu and setting 
+        # load configuration - menu and setting
         #
         self.debug = 0
         self.menu_data_ora = 0
@@ -850,8 +850,8 @@ class WxSagra(wx.Frame):
 
         self.r = load_ini('portate.ini')
         # print self.r
-        # test and set setting present in stampa box.(convert in integer please) 
-        box = "stampa" 
+        # test and set setting present in stampa box.(convert in integer please)
+        box = "stampa"
         print "\n",box
         for item in self.r[box]:
             print item, self.r[box][item]
@@ -863,16 +863,16 @@ class WxSagra(wx.Frame):
                 self.menu_progr = int(self.r[box][item])
 
         if self.debug == 1 :
-            box = "stampa" 
+            box = "stampa"
             print "\n",box
             for item in self.r[box]:
                 print item, self.r[box][item]
 
-            box = "intestazione" 
+            box = "intestazione"
             print "\n",box
             for item in self.r[box]:
                 print item, self.r[box][item]
-            
+
             box = "Primi"
             # print "\n",box
             for item in self.r[box]:
@@ -889,7 +889,7 @@ class WxSagra(wx.Frame):
             print "\n",box
             for item in self.r[box]:
                 print item, self.r[box][item]
-            
+
 
         # get info saved from log of the day (backup for restart )
         #     create or update file of this day activity  - name format is  piattiyyyy-mm-dd.csv
@@ -904,10 +904,10 @@ class WxSagra(wx.Frame):
         filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
         piatti_log = []
         # print filename
-        self.menunumero = 0        
+        self.menunumero = 0
         if os.path.exists(filename):
             piatti_log = load_tabbed_file(filename)
-            if self.debug == 1 : 
+            if self.debug == 1 :
                 print "ultimo menu" , piatti_log[0][2]
             self.menunumero = piatti_log[0][2]
 
@@ -918,16 +918,16 @@ class WxSagra(wx.Frame):
                 if (self.r['QINZ'][riga] < 0):
                     piatti_log[y][4] = ""
                 else :
-                    # per questa portata imposto 
-                    #   quantita residua = quantita limite iniziale - quntita gia' venduta 
+                    # per questa portata imposto
+                    #   quantita residua = quantita limite iniziale - quntita gia' venduta
                     self.r['QRES'][riga] = self.r['QINZ'][riga] - float(piatti_log[y][2])
                     #    update log due change in QINZ after reloading)
                     if (piatti_log[y][4] != ""):
                         piatti_log[y][4] = self.r['QRES'][riga]
-                        refresh_log = 1 
+                        refresh_log = 1
             if (refresh_log == 1) :
                 save_tabbed_file(filename,piatti_log)
-# code from winbinder version to manage piatti residui  - to do -  
+# code from winbinder version to manage piatti residui  - to do -
 #           $count=0;
 #           #//print_r( $cfg['INZ']);
 #           #//print_r( $cfg['QRES']);
@@ -958,7 +958,7 @@ class WxSagra(wx.Frame):
 #                 }
 #              }
 #            if ($refresh_log == 1) save_tabbed_file($filename,$piatti_log);
-#                                                                              
+#
 
 
         #
@@ -981,10 +981,10 @@ class WxSagra(wx.Frame):
         self.staticBox1 = wx.StaticBox(id=wxID_WXSAGRASTATICBOX1,
               label=u'Primi', name=u'staticBox1', parent=panel,
               pos=wx.Point(8, 32), size=wx.Size(336, 232), style=0)
-        
+
 
         #
-        # draw single item button and related textfield for quantity 
+        # draw single item button and related textfield for quantity
         #     use createButtonCommand - build OneButton
         #     use createButtonText
 
@@ -1003,7 +1003,7 @@ class WxSagra(wx.Frame):
               pos=wx.Point(528, 524), size=wx.Size(47, 18), style=0)
         self.staticTextTotale.SetFont(wx.Font(11, wx.SWISS, wx.NORMAL, wx.BOLD,
               False, u'Tahoma'))
-                
+
         self.GrandTotal = wx.TextCtrl(id=wxID_WXSAGRATOTALE, name=u'Totale',
               parent=panel, pos=wx.Point(582, 520), size=wx.Size(100, 27),
               style=wx.TE_READONLY | wx.TE_RIGHT, value=u'0.00')
@@ -1021,7 +1021,7 @@ class WxSagra(wx.Frame):
         # get and draw default printer info
         #
         if self.debug == 1 :
-            print 
+            print
             print "GetPrinterName:" , win32print.GetDefaultPrinter()
 
         defaultprt = "Stampa su: %s " % win32print.GetDefaultPrinter()
@@ -1031,24 +1031,24 @@ class WxSagra(wx.Frame):
         #print devmode.PaperSize
         for key in paper_sizes.keys():
           if paper_sizes[key] == devmode.PaperSize :
-            # print key 
+            # print key
             defaultprt += ' '
             defaultprt += str(key)
             break
         for key in orientations.keys():
         #print devmode.Orientation
           if orientations[key] == devmode.Orientation :
-            # print key 
+            # print key
             defaultprt += ' '
             defaultprt += str(key)
             break
         # print devmode.YResolution
         defaultprt += ' Y_scale_dot/inch:'
         defaultprt += str(devmode.YResolution)
-        # close printer 
+        # close printer
         win32print.ClosePrinter(hprinter)
         # print "Close printer handle"
-        #end get default printer info 
+        #end get default printer info
 
         self.infoprinter = wx.StaticText(id=wxID_WXSAGRAINFOPRINTER,
               label= defaultprt, name=u'infoprinter',
@@ -1061,13 +1061,13 @@ class WxSagra(wx.Frame):
               size=wx.Size(180, 13), style=0)
 
         #
-        # get and draw date time info and his update logic 
+        # get and draw date time info and his update logic
         #
         #dt = str(wx.DateTimeFromDMY(now.day, now.now.month, now.year))
         now = datetime.datetime.now()
         dt = str(now.strftime("%d-%m-%Y %H:%M:%S"))
         self.datatime_menuprogr.SetLabel(dt)
- 
+
         self.timer = wx.Timer(self)
         self.Bind(wx.EVT_TIMER, self.OnTimerUpdate, self.timer)
         self.timer.Start(1000)
@@ -1079,7 +1079,7 @@ class WxSagra(wx.Frame):
               label=u'Totale Precedente', name=u'lbl_TotPrec', parent=panel,
               pos=wx.Point(22, 530), size=wx.Size(90, 13), style=0)
 
-        self.val_TotPrec = wx.TextCtrl(id=wxID_WXSAGRAVAL_TOTPREC, name=u'val_TotPrec', 
+        self.val_TotPrec = wx.TextCtrl(id=wxID_WXSAGRAVAL_TOTPREC, name=u'val_TotPrec',
               parent=panel, pos= (115, 526),
               size=wx.Size(50, 21), style= wx.TE_READONLY |wx.ALIGN_RIGHT, value = '0.00')
 
@@ -1104,31 +1104,31 @@ class WxSagra(wx.Frame):
               label='ticket menu prec.', name='', parent=panel,
               pos=wx.Point(400, 530), size=wx.Size(110, 13), style=0)
 
-        # Hook frame event so we can warn on unsaved exit        
-        self.Bind(wx.EVT_CLOSE, self.OnClose)        
+        # Hook frame event so we can warn on unsaved exit
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
 
-        #                           
-        #                           
-        #                           
-        #                           
-        #  end menu creation        
-        #                           
-        #                           
-        #                           
-        #                           
+        #
+        #
+        #
+        #
+        #  end menu creation
+        #
+        #
+        #
+        #
 
 
         """
         self.OpenFile()
     def OpenFile(self, newfilename = "portate.ini") :
-        # Opens a file, parses each line 
-       
-        
+        # Opens a file, parses each line
+
+
         f = open(newfilename, "r")
         for s in f.readlines() :
            print s
         f.close()
-        
+
 ##        iLen = len(newportate)
 ##        if iLen > 0 :
 ##            self.SetTape(newportate, newfilename)
@@ -1235,7 +1235,7 @@ class WxSagra(wx.Frame):
             self.createButtonText(panel,eachLabel, ( xPos+258,yPos+2))
             self.createButtonLabel(panel,eachLabel, ( xPos+258,yPos+2))
             yPos += button.GetSize().height
-    
+
     def createButtonBar3(self, panel, xPos = 48):
         yPos = 295
         dimens = (256,21)
@@ -1256,7 +1256,7 @@ class WxSagra(wx.Frame):
             yPos += button.GetSize().height
 
     def createButtonBar4(self, panel, xPos = 384):
-        yPos = 295        
+        yPos = 295
         dimens = (256,21)
         #for eachLabel, eachHandler in self.buttonData_bevande():
         handler = ( self.OnBevande_1, self.OnBevande_2,self.OnBevande_3,
@@ -1274,7 +1274,7 @@ class WxSagra(wx.Frame):
             yPos += button.GetSize().height
 
     def createButtonCommand(self, panel, xPos = 700):
-        yPos = 100 
+        yPos = 100
         dimens = (50,50)
         for eachLabel, eachHandler in self.buttonData_Comandi():
             pos = (xPos, yPos)
@@ -1293,19 +1293,19 @@ class WxSagra(wx.Frame):
         yPos = 60
         pos = (xPos, yPos)
         button = self.buildOneButton(panel, "test menu", self.OnTestMenu, pos, dimens)
-    
+
     def createButtonText(self, panel, label, pos):
         static = wx.StaticText(panel, wx.NewId(), "", pos)
         static.SetBackgroundColour("White")
         textPos = (pos[0] + 1, pos[1])
         temp = wx.NewId()
-        # 2013_02 - added control to enter only number 
-        self.textFields[label] = wx.TextCtrl(panel, temp, 
+        # 2013_02 - added control to enter only number
+        self.textFields[label] = wx.TextCtrl(panel, temp,
                 "0", size=(20, 15), pos=textPos,
                 style=wx.TE_RIGHT, validator=CharValidator("no-alpha"))
         # self.textFields[label] e' un array dei campi di immissiome creati
         # essi sono identificati da label (descr portata 1 ..descr portate 2 etc )
-        # per gestirli si usa self.textFields["descr portata 1"].SetValue("1")  
+        # per gestirli si usa self.textFields["descr portata 1"].SetValue("1")
         self.textFields[label].SetSelection(-1,-1)
         self.Bind(wx.EVT_TEXT, self.TotalCalc, self.textFields[label])
         # print"x:" + str(temp) + " " + label
@@ -1324,552 +1324,552 @@ class WxSagra(wx.Frame):
         button = wx.Button(parent, -1, label, pos, dimens)
         self.Bind(wx.EVT_BUTTON, handler, button)
         return button
-    """   
+    """
     def textFieldData(self):
         return (("First Name", (10, 520)),
                 ("Last Name", (200, 520)))
-     
+
     def createTextFields(self, panel):
         for eachLabel, eachPos in self.textFieldData():
             self.createCaptionedText(panel, eachLabel, eachPos)
-    """            
+    """
 
     def createCaptionedText(self, panel, label, pos):
         static = wx.StaticText(panel, wx.NewId(), label, pos)
         static.SetBackgroundColour("White")
         textPos = (pos[0] + 75, pos[1])
-        self.textFields[label] = wx.TextCtrl(panel, wx.NewId(), 
+        self.textFields[label] = wx.TextCtrl(panel, wx.NewId(),
                 "", size=(100, -1), pos=textPos,
                 style=wx.TE_READONLY)
-        
+
 
     def OnUpdate(self, model):
-        self.textFields["First Name"].SetValue(model.first)    
-        self.textFields["Last Name"].SetValue(model.last) 
-        
-        
-    def OnPrimi_1(self, event):                                   
-        # self.model.set("Fred", "Flintstone")                   
-        # get value return string - 
+        self.textFields["First Name"].SetValue(model.first)
+        self.textFields["Last Name"].SetValue(model.last)
+
+
+    def OnPrimi_1(self, event):
+        # self.model.set("Fred", "Flintstone")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0        
+        x=0
         for item   in self.r["Primi"]:
             x += 1
-            if (x == 1): break 
+            if (x == 1): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
-        # textFields - bottontext is binded on change to self.TotalCalc(0)
-        
-    def OnPrimi_2(self, event):                                 
-        # self.model.set("Barney", "Rubble")                     
-        # get value return string - 
-        # to use in calculation we must convert it to numeric
-        x=0        
-        for item  in self.r["Primi"]:
-            x += 1
-            if (x == 2): break 
-        tempqta = int(self.textFields [item].GetValue())
-        tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
-        # textFields - bottontext is binded on change to self.TotalCalc(0)
-                                                               
-    def OnPrimi_3(self, event):                                  
-        # self.model.set("Wilma", "Flintstone")                  
-        # get value return string - 
-        # to use in calculation we must convert it to numeric
-        x=0        
-        for item  in self.r["Primi"]:
-            x += 1
-            if (x == 3): break 
-        tempqta = int(self.textFields [item].GetValue())
-        tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnPrimi_4(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnPrimi_2(self, event):
+        # self.model.set("Barney", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0        
+        x=0
         for item  in self.r["Primi"]:
             x += 1
-            if (x == 4): break 
+            if (x == 2): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnPrimi_5(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnPrimi_3(self, event):
+        # self.model.set("Wilma", "Flintstone")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0        
+        x=0
         for item  in self.r["Primi"]:
             x += 1
-            if (x == 5): break 
+            if (x == 3): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnPrimi_6(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnPrimi_4(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0        
+        x=0
         for item  in self.r["Primi"]:
             x += 1
-            if (x == 6): break 
+            if (x == 4): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-        
-    def OnPrimi_7(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnPrimi_5(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0        
+        x=0
         for item  in self.r["Primi"]:
             x += 1
-            if (x == 7): break 
+            if (x == 5): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnPrimi_8(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnPrimi_6(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0        
+        x=0
         for item  in self.r["Primi"]:
             x += 1
-            if (x == 8): break 
+            if (x == 6): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnPrimi_9(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+
+    def OnPrimi_7(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0        
+        x=0
         for item  in self.r["Primi"]:
             x += 1
-            if (x == 9): break 
+            if (x == 7): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnPrimi_10(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnPrimi_8(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0        
+        x=0
         for item  in self.r["Primi"]:
             x += 1
-            if (x == 10): break 
+            if (x == 8): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
+        # textFields - bottontext is binded on change to self.TotalCalc(0)
+
+    def OnPrimi_9(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
+        # to use in calculation we must convert it to numeric
+        x=0
+        for item  in self.r["Primi"]:
+            x += 1
+            if (x == 9): break
+        tempqta = int(self.textFields [item].GetValue())
+        tempqta = tempqta + 1
+        self.textFields[item].SetValue("%d" % tempqta)
+        # textFields - bottontext is binded on change to self.TotalCalc(0)
+
+    def OnPrimi_10(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
+        # to use in calculation we must convert it to numeric
+        x=0
+        for item  in self.r["Primi"]:
+            x += 1
+            if (x == 10): break
+        tempqta = int(self.textFields [item].GetValue())
+        tempqta = tempqta + 1
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     # evento secondi
-    def OnSecondi_1(self, event):                                   
-        # self.model.set("Fred", "Flintstone")                   
-        # get value return string - 
+    def OnSecondi_1(self, event):
+        # self.model.set("Fred", "Flintstone")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 1): break 
+            if (x == 1): break
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnSecondi_2(self, event):                                 
-        # self.model.set("Barney", "Rubble")                     
-        # get value return string - 
+    def OnSecondi_2(self, event):
+        # self.model.set("Barney", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 2): break 
+            if (x == 2): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnSecondi_3(self, event):                                  
-        # self.model.set("Wilma", "Flintstone")                  
-        # get value return string - 
+    def OnSecondi_3(self, event):
+        # self.model.set("Wilma", "Flintstone")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 3): break 
+            if (x == 3): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
-        # textFields - bottontext is binded on change to self.TotalCalc(0)
-                                                               
-    def OnSecondi_4(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
-        # to use in calculation we must convert it to numeric
-        x=0 
-        for item  in self.r["Secondi"]:
-            x += 1
-            if (x == 4): break 
-        tempqta = int(self.textFields[item].GetValue())
-        tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnSecondi_5(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnSecondi_4(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 5): break 
+            if (x == 4): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnSecondi_6(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnSecondi_5(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 6): break 
+            if (x == 5): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnSecondi_7(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnSecondi_6(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 7): break 
+            if (x == 6): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnSecondi_8(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnSecondi_7(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 8): break 
+            if (x == 7): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnSecondi_9(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnSecondi_8(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 9): break 
+            if (x == 8): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnSecondi_10(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnSecondi_9(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
-        x=0 
+        x=0
         for item  in self.r["Secondi"]:
             x += 1
-            if (x == 10): break 
+            if (x == 9): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
+        # textFields - bottontext is binded on change to self.TotalCalc(0)
+
+    def OnSecondi_10(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
+        # to use in calculation we must convert it to numeric
+        x=0
+        for item  in self.r["Secondi"]:
+            x += 1
+            if (x == 10): break
+        tempqta = int(self.textFields[item].GetValue())
+        tempqta = tempqta + 1
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
 # evento contorni
-    def OnContorni_1(self, event):                                   
-        # self.model.set("Fred", "Flintstone")                   
-        # get value return string - 
+    def OnContorni_1(self, event):
+        # self.model.set("Fred", "Flintstone")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x=0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 1): break 
+            if (x == 1): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_2(self, event):                                 
-        # self.model.set("Barney", "Rubble")                     
-        # get value return string - 
+    def OnContorni_2(self, event):
+        # self.model.set("Barney", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x=0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 2): break 
+            if (x == 2): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_3(self, event):                                  
-        # self.model.set("Wilma", "Flintstone")                  
-        # get value return string - 
+    def OnContorni_3(self, event):
+        # self.model.set("Wilma", "Flintstone")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x=0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 3): break 
+            if (x == 3): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_4(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnContorni_4(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x=0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 4): break 
+            if (x == 4): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_5(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnContorni_5(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x=0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 5): break 
+            if (x == 5): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_6(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnContorni_6(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x=0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 6): break 
+            if (x == 6): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_7(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnContorni_7(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x=0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 7): break 
+            if (x == 7): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_8(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnContorni_8(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 8): break 
+            if (x == 8): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_9(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnContorni_9(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 9): break 
+            if (x == 9): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnContorni_10(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnContorni_10(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Contorni"]:
             x += 1
-            if (x == 10): break 
+            if (x == 10): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta)  
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
 # evento bevande
-    def OnBevande_1(self, event):                                   
-        # self.model.set("Fred", "Flintstone")                   
-        # get value return string - 
+    def OnBevande_1(self, event):
+        # self.model.set("Fred", "Flintstone")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 1): break 
+            if (x == 1): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_2(self, event):                                 
-        # self.model.set("Barney", "Rubble")                     
-        # get value return string - 
+    def OnBevande_2(self, event):
+        # self.model.set("Barney", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 2): break 
+            if (x == 2): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_3(self, event):                                  
-        # self.model.set("Wilma", "Flintstone")                  
-        # get value return string - 
+    def OnBevande_3(self, event):
+        # self.model.set("Wilma", "Flintstone")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 3): break 
+            if (x == 3): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_4(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnBevande_4(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 4): break 
+            if (x == 4): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_5(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnBevande_5(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 5): break 
+            if (x == 5): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_6(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnBevande_6(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 6): break 
+            if (x == 6): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_7(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnBevande_7(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 7): break 
+            if (x == 7): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_8(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnBevande_8(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 8): break 
+            if (x == 8): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_9(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnBevande_9(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 9): break 
+            if (x == 9): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
-    def OnBevande_10(self, event):                                  
-        # self.model.set("Betty", "Rubble")                      
-        # get value return string - 
+    def OnBevande_10(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
         # to use in calculation we must convert it to numeric
         x = 0
         for item  in self.r["Bevande"]:
             x += 1
-            if (x == 10): break 
+            if (x == 10): break
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
-        self.textFields[item].SetValue("%d" % tempqta) 
+        self.textFields[item].SetValue("%d" % tempqta)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def Piatti_Log_init(self, piatti_log, pp,ss,cc,bb):
@@ -1879,7 +1879,7 @@ class WxSagra(wx.Frame):
             #piatti_log[i][0] = item              #piatto
             #piatti_log[i][1] = self.r[a][item]   #costo
             #piatti_log[i][2] = 0                 #quantita'
-            #piatti_log[i][3] = 0                 #valore 
+            #piatti_log[i][3] = 0                 #valore
             #piatti_log[i][4] = self.r['QINZ'][item]
             line=[0,"",0,0,""]
             line[0] = item
@@ -1894,7 +1894,7 @@ class WxSagra(wx.Frame):
             #piatti_log[i][0] = item              #piatto
             #piatti_log[i][1] = self.r[a][item]   #costo
             #piatti_log[i][2] = 0                 #quantita'
-            #piatti_log[i][3] = 0                 #valore 
+            #piatti_log[i][3] = 0                 #valore
             #piatti_log[i][4] = self.r['QINZ'][item]
             line=[0,"",0,0,""]
             line[0] = item
@@ -1908,7 +1908,7 @@ class WxSagra(wx.Frame):
             #piatti_log[i][0] = item              #piatto
             #piatti_log[i][1] = self.r[a][item]   #costo
             #piatti_log[i][2] = 0                 #quantita'
-            #piatti_log[i][3] = 0                 #valore 
+            #piatti_log[i][3] = 0                 #valore
             #piatti_log[i][4] = self.r['QINZ'][item]
             line=[0,"",0,0,""]
             line[0] = item
@@ -1922,7 +1922,7 @@ class WxSagra(wx.Frame):
             #piatti_log[i][0] = item              #piatto
             #piatti_log[i][1] = self.r[a][item]   #costo
             #piatti_log[i][2] = 0                 #quantita'
-            #piatti_log[i][3] = 0                 #valore 
+            #piatti_log[i][3] = 0                 #valore
             #piatti_log[i][4] = self.r['QINZ'][item]
             line=[0,"",0,0,""]
             line[0] = item
@@ -1934,27 +1934,80 @@ class WxSagra(wx.Frame):
             i += 1
         return piatti_log
 
-    def Piatti_Log_update(self, piatti_log, pp,ss,cc,bb):
+    def Piatti_Log_storna_update(self, piatti_log, pp,ss,cc,bb):
         x = 0
-            #search in piatti_log 
+            #search in piatti_log
             #for item in self.r[pp]:
             #piatti_log[i][0] = item              #piatto]
             #piatti_log[i][1] = self.r[a][item]   #costo
             #piatti_log[i][2] = 0                 #quantita'
-            #piatti_log[i][3] = 0                 #valore 
+            #piatti_log[i][3] = 0                 #valore
             #piatti_log[i][4] = self.r['QINZ'][item]
-            
 
-        # used to test if we must write updated piatti_log 
+
+        # used to test if we must write updated piatti_log
         tmp_totmenu = 0
 
-        # leggi tutte le portate di questo menu dalle tuples 
+        # leggi tutte le portate di questo menu dalle tuples
         i= 1
         for x in range(40) :
           if self.Voce[x] != "" and self.QtaRiga[x] > 0:
-            # print "get info from Voce[x] ", x, self.Voce[x] 
+            # print "get info from Voce[x] ", x, self.Voce[x]
             # test per piatto da aggiornare  non trovato piatti_log
-            piatto_found = 0 
+            piatto_found = 0
+            for y in range(i,x+2) :
+                riga =  piatti_log[y][0]
+                # print "update test for " , riga
+                if (self.Voce[x] == riga):
+                    # print "found, now update piatti_log for ", x , self.Voce[x] ,\
+                    #       self.Portata[x], self.QtaRiga[x]
+                    # print "previous ", piatti_log[y] , "QRES: ", self.r['QRES'][riga]
+                    piatti_log[y][2] = float(piatti_log[y][2]) - self.QtaRiga[x]
+                    piatti_log[y][3] = float(piatti_log[y][3]) - self.TotaliRiga[x]
+                    piatti_log[y][4] = self.r['QINZ'][riga] + self.QtaRiga[x]
+                    self.r['QRES'][riga] = self.r['QINZ'][riga] + self.QtaRiga[x]
+                    if self.debug == 1 :
+                        print "updated  ", piatti_log[y], "QRES: ", self.r['QRES'][riga]
+                    tmp_totmenu = tmp_totmenu + self.TotaliRiga[x]
+                    piatto_found = 1
+                    break
+
+        if self.debug == 1 :
+            print piatti_log
+
+        if tmp_totmenu > 0 :
+           #update first record info but not menunumero
+           # self.menunumero = int(self.menunumero) + 1
+           now = datetime.datetime.now()
+           piatti_log[0][1] = str(now.strftime("%Y-%m-%d"))        # aaaa-mm-gg
+           # piatti_log[0][2] = self.menunumero                     # progr  menu fatti nella sessione
+           piatti_log[0][3] = float(piatti_log[0][3]) - tmp_totmenu
+           if self.debug == 1 :
+                print "check menu ", self.menunumero, " total printed: ", self.totmenu , " logged: ",tmp_totmenu
+        return
+
+
+    def Piatti_Log_update(self, piatti_log, pp,ss,cc,bb):
+        x = 0
+            #search in piatti_log
+            #for item in self.r[pp]:
+            #piatti_log[i][0] = item              #piatto]
+            #piatti_log[i][1] = self.r[a][item]   #costo
+            #piatti_log[i][2] = 0                 #quantita'
+            #piatti_log[i][3] = 0                 #valore
+            #piatti_log[i][4] = self.r['QINZ'][item]
+
+
+        # used to test if we must write updated piatti_log
+        tmp_totmenu = 0
+
+        # leggi tutte le portate di questo menu dalle tuples
+        i= 1
+        for x in range(40) :
+          if self.Voce[x] != "" and self.QtaRiga[x] > 0:
+            # print "get info from Voce[x] ", x, self.Voce[x]
+            # test per piatto da aggiornare  non trovato piatti_log
+            piatto_found = 0
             for y in range(i,x+2) :
                 riga =  piatti_log[y][0]
                 # print "update test for " , riga
@@ -1972,20 +2025,20 @@ class WxSagra(wx.Frame):
                     piatto_found = 1
                     break
 
-            # piatto non presente in piatti_log (aggiunto durante la sessione) 
+            # piatto non presente in piatti_log (aggiunto durante la sessione)
             # aggiungo la relativa riga
             if piatto_found == 0:
-                #add voce 
+                #add voce
                 #piatti_log[][0] = item              #piatto
                 #piatti_log[][1] = self.r[a][item]   #costo
                 #piatti_log[][2] = 0                 #quantita'
-                #piatti_log[][3] = 0                 #valore 
+                #piatti_log[][3] = 0                 #valore
                 #piatti_log[][4] = self.r['QINZ'][item]
                 if self.debug == 1 :
                     print " aggiungo portata non presente in piatti_log " , riga
                 line=[0,"",0,0,""]
                 line[0] = riga
-                # print self.TotaliRiga[x]/self.QtaRiga[x] 
+                # print self.TotaliRiga[x]/self.QtaRiga[x]
                 line[1] = self.TotaliRiga[x]/self.QtaRiga[x]
                 # print self.PortataPrice[x]
                 line[1] = self.PortataPrice[x]
@@ -2006,27 +2059,27 @@ class WxSagra(wx.Frame):
            piatti_log[0][3] = float(piatti_log[0][3]) + tmp_totmenu
            if self.debug == 1 :
                 print "check menu ", self.menunumero, " total printed: ", self.totmenu , " logged: ",tmp_totmenu
-        return 
+        return
 
     def TotalCalc(self, event):
-        # arrivo qui sia per quantita immessa manualmente 
+        # arrivo qui sia per quantita immessa manualmente
         #            sia per click sul pulsante (+ 1 ad ogni click)
-        # ricalcolo i totali riga (quantita * prezzo) 
-        
+        # ricalcolo i totali riga (quantita * prezzo)
+
         # print"function totalcalc"
         # print
-        
-        # 2013 - we need additional  check on field value 
-        #       from dalla validation can arrive  blank 
-        #       to prevent int conversion error 
-        #       little function is_number() is provided 
-        
+
+        # 2013 - we need additional  check on field value
+        #       from dalla validation can arrive  blank
+        #       to prevent int conversion error
+        #       little function is_number() is provided
+
         ctl = event.GetEventObject()
         value = ctl.GetValue()
         # print "hai immesso" , value
 
-        # 2013 solution 2 to avoid blank and change to 0  
-        # better than previuos 
+        # 2013 solution 2 to avoid blank and change to 0
+        # better than previuos
 
         #if all(x in '0123456789-' for x in value):
         if is_number(value):
@@ -2038,9 +2091,9 @@ class WxSagra(wx.Frame):
           ctl.SetSelection(-1,-1)
 
         self.total_ticket=0
-        x = 0 
+        x = 0
         for item in self.r["Primi"]:
-            # printitem, 
+            # printitem,
             tempqta = self.textFields [item].GetValue()
             tempqta = int(tempqta)
             self.Voce[x] = item
@@ -2049,7 +2102,7 @@ class WxSagra(wx.Frame):
             self.TotaliRiga[x] = tempqta* self.r['Primi'][item]
             self.PortataPrice[x] = self.r['Primi'][item]
 
-            """ superseeded by solution 2 on blank 
+            """ superseeded by solution 2 on blank
             if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Primi'][item]
               tempqta = int(tempqta)
@@ -2060,9 +2113,9 @@ class WxSagra(wx.Frame):
               self.PortataPrice[x] = self.r['Primi'][item]
             """
             x += 1
-        x = 10 
+        x = 10
         for item in self.r["Secondi"]:
-            # printitem, 
+            # printitem,
             tempqta = self.textFields [item].GetValue()
             if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Secondi'][item]
@@ -2073,9 +2126,9 @@ class WxSagra(wx.Frame):
               self.TotaliRiga[x] = tempqta* self.r['Secondi'][item]
               self.PortataPrice[x] = self.r['Secondi'][item]
             x += 1
-        x = 20 
+        x = 20
         for item in self.r["Contorni"]:
-            # printitem, 
+            # printitem,
             tempqta = self.textFields [item].GetValue()
             if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Contorni'][item]
@@ -2085,8 +2138,8 @@ class WxSagra(wx.Frame):
               self.QtaRiga[x] = tempqta
               self.TotaliRiga[x] = tempqta* self.r['Contorni'][item]
               self.PortataPrice[x] = self.r['Contorni'][item]
-              # handle ticket 
-              if (item.find ("@") != -1): 
+              # handle ticket
+              if (item.find ("@") != -1):
                 self.total_ticket= self.total_ticket + self.TotaliRiga[x]
               #
             x += 1
@@ -2096,7 +2149,7 @@ class WxSagra(wx.Frame):
 
         x = 30
         for item in self.r["Bevande"]:
-            # printitem, 
+            # printitem,
             tempqta = self.textFields [item].GetValue()
             if is_number(tempqta) :
             # printtempqta , tempqta* self.r['Bevande'][item]
@@ -2118,14 +2171,14 @@ class WxSagra(wx.Frame):
             self.totmenu = self.totmenu + self.TotaliRiga[i]
         self.GrandTotal.SetValue("%.2f" % self.totmenu)
 
-        # handle ticket 
+        # handle ticket
         if self.total_ticket > 0 :
-            self.staticLabelTotalTicket.SetLabel("di cui ticket") 
+            self.staticLabelTotalTicket.SetLabel("di cui ticket")
             self.staticTotalTicket.SetLabel("%.2f" % self.total_ticket)
 
     def RestoCalc(self, event):
         temptotprec = float(self.val_TotPrec.GetValue())
-        tempcassa = float(self.val_cassa.GetValue())         
+        tempcassa = float(self.val_cassa.GetValue())
         resto = temptotprec - tempcassa
         self.val_resto.SetValue("%.2f" % resto)
 
@@ -2143,14 +2196,14 @@ class WxSagra(wx.Frame):
                 #i = 0;
                 #print ss
 
-                # 2013 - we need additional  check on field value 
-                #       from dalla validation can arrive  blank 
-                #       to prevent int conversion error 
-                #       little function is_number() is provided 
-        
+                # 2013 - we need additional  check on field value
+                #       from dalla validation can arrive  blank
+                #       to prevent int conversion error
+                #       little function is_number() is provided
+
 
                 for item in self.r["Primi"]:
-                    #print item, 
+                    #print item,
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
                     tempqta = self.textFields [item].GetValue()
@@ -2163,7 +2216,7 @@ class WxSagra(wx.Frame):
                         self.labelFields[item].SetLabel("")
 
                 for item in self.r["Secondi"]:
-                    #print item, 
+                    #print item,
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
                     tempqta = self.textFields [item].GetValue()
@@ -2176,7 +2229,7 @@ class WxSagra(wx.Frame):
                         self.labelFields[item].SetLabel("")
 
                 for item in self.r["Contorni"]:
-                    #print item, 
+                    #print item,
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
                     tempqta = self.textFields [item].GetValue()
@@ -2189,7 +2242,7 @@ class WxSagra(wx.Frame):
                         self.labelFields[item].SetLabel("")
 
                 for item in self.r["Bevande"]:
-                    #print item, 
+                    #print item,
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
                     tempqta = self.textFields [item].GetValue()
@@ -2203,40 +2256,40 @@ class WxSagra(wx.Frame):
 
 # not used - moved in OnStampa to abort print if total menu value is 0 is empty
 #    def ShowMessage(self):
-#        wx.MessageBox('Nulla da stampare', 'Info', 
+#        wx.MessageBox('Nulla da stampare', 'Info',
 #            wx.OK | wx.ICON_INFORMATION)
 
     def OnAnnulla(self, event) :
         # print "Annulla"
         # we change only if qta > 0 to avoid not needed bind on change
         for item in self.r["Primi"]:
-            #print item, 
+            #print item,
             # we change only if qta > 0 to avoid not needed bind on change
             #self.textFields[item].SetValue("%d" % 0)
             tempqta = int(self.textFields[item].GetValue())
             if tempqta > 0 : self.textFields[item].SetValue("%d" % 0)
-            
+
         for item in self.r["Secondi"]:
-            #print item, 
-            tempqta = int(self.textFields[item].GetValue())
-            if tempqta > 0 : self.textFields[item].SetValue("%d" % 0)
-            
-        for item in self.r["Contorni"]:
-            #print item, 
-            tempqta = int(self.textFields[item].GetValue())
-            if tempqta > 0 : self.textFields[item].SetValue("%d" % 0)
-        
-        for item in self.r["Bevande"]:
-            #print item, 
+            #print item,
             tempqta = int(self.textFields[item].GetValue())
             if tempqta > 0 : self.textFields[item].SetValue("%d" % 0)
 
-        self.staticLabelTotalTicket.SetLabel("") 
+        for item in self.r["Contorni"]:
+            #print item,
+            tempqta = int(self.textFields[item].GetValue())
+            if tempqta > 0 : self.textFields[item].SetValue("%d" % 0)
+
+        for item in self.r["Bevande"]:
+            #print item,
+            tempqta = int(self.textFields[item].GetValue())
+            if tempqta > 0 : self.textFields[item].SetValue("%d" % 0)
+
+        self.staticLabelTotalTicket.SetLabel("")
         self.staticTotalTicket.SetLabel("")
 
 
         # textFields - bottontext is binded on change to self.TotalCalc(0)
-        
+
         #
         # aggiorno il totale del memnu
         #
@@ -2260,7 +2313,7 @@ class WxSagra(wx.Frame):
         # print "Annulla"
         # we change only if qta > 0 to avoid not needed bind on change
         for item in self.r["Primi"]:
-            #print item, 
+            #print item,
             # we change only if qta > 0 to avoid not needed bind on change
             #self.textFields[item].SetValue("%d" % 0)
             tempqta = int(self.textFields[item].GetValue())
@@ -2271,30 +2324,52 @@ class WxSagra(wx.Frame):
             #
 
         for item in self.r["Secondi"]:
-            # print item, 
+            # print item,
             tempqta = int(self.textFields[item].GetValue())
             self.textFields[item].SetValue("%d" % 1)
-            
+
         for item in self.r["Contorni"]:
-            # print item, 
+            # print item,
             tempqta = int(self.textFields[item].GetValue())
             self.textFields[item].SetValue("%d" % 1)
-        
+
         for item in self.r["Bevande"]:
-            # print item, 
+            # print item,
             tempqta = int(self.textFields[item].GetValue())
             self.textFields[item].SetValue("%d" % 1)
 
     def OnStorna(self, event) :
-        print "Storna"
-
-    def OnRegistra(self, event) :
-        # print "Registra" 
+        # print "Storna"
         now = datetime.datetime.now()
         filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
         piatti_log = []
         # print filename
-        # print "self.menunumero: ", self.menunumero 
+        # print "self.menunumero: ", self.menunumero
+        if os.path.exists(filename):
+           piatti_log = load_tabbed_file(filename)
+
+        # if file exixst - we can stornare
+        if (len(piatti_log) > 0 ) :
+
+            # print  "\n  Update array -piatt_log - cvs" ;
+            self.Piatti_Log_storna_update(piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
+            # self.menunumero = piatti_log[0][2]
+            save_tabbed_file(filename, piatti_log)
+
+            # clear for next menu
+            # self.val_TotPrec.SetValue("%.2f" % self.totmenu)
+            # self.val_TotalTicketPrec.SetLabel("ticket menu prec %.2f" % self.total_ticket)
+
+        # clear menu
+        self.OnAnnulla(True)
+
+    def OnRegistra(self, event) :
+        # print "Registra"
+        now = datetime.datetime.now()
+        filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
+        piatti_log = []
+        # print filename
+        # print "self.menunumero: ", self.menunumero
         if os.path.exists(filename):
            piatti_log = load_tabbed_file(filename)
 
@@ -2304,12 +2379,12 @@ class WxSagra(wx.Frame):
            # descr, totale, numero menu, valore
            line ="Totali,0,0,0,0" ;
            res = line.split(",")
-           piatti_log.append(res); 
+           piatti_log.append(res);
            i=1;
            # initialize piatti_log
            self.Piatti_Log_init( piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
            # print piatti_log
-        
+
         # print  "\n  Update array -piatt_log - cvs" ;
         self.Piatti_Log_update(piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
         self.menunumero = piatti_log[0][2]
@@ -2317,17 +2392,17 @@ class WxSagra(wx.Frame):
 
         # clear for next menu
         self.val_TotPrec.SetValue("%.2f" % self.totmenu)
-        self.val_TotalTicketPrec.SetLabel("ticket menu prec %.2f" % self.total_ticket) 
+        self.val_TotalTicketPrec.SetLabel("ticket menu prec %.2f" % self.total_ticket)
 
-        # save also omaggi in a companion piatti_omaggiaaaa-mm-gg 
+        # save also omaggi in a companion piatti_omaggiaaaa-mm-gg
         # portate quantity reported for omaggi are only for reference
-        # real portate quantity are alredy reported in piatti_log 
+        # real portate quantity are alredy reported in piatti_log
         # total we have in cash is total in piatti - total in piatti_omaggi
         if (self.flag_omaggio == 1) :
             filename =  "piatti_omaggi"+ str(now.strftime("%Y-%m-%d")) + ".csv"
             piatti_log = []
             # print filename
-            # print "self.menunumero: ", self.menunumero 
+            # print "self.menunumero: ", self.menunumero
             if os.path.exists(filename):
                 piatti_log = load_tabbed_file(filename)
 
@@ -2337,12 +2412,12 @@ class WxSagra(wx.Frame):
                 # descr, totale, numero menu, valore
                 line ="Totali,0,0,0,0" ;
                 res = line.split(",")
-                piatti_log.append(res); 
+                piatti_log.append(res);
                 i=1;
                 # initialize piatti_log
                 self.Piatti_Log_init( piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
                 # print piatti_log
-        
+
             # print  "\n  Update array -piatt_log - cvs" ;
             self.Piatti_Log_update(piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
             self.menunumero = piatti_log[0][2]
@@ -2359,19 +2434,19 @@ class WxSagra(wx.Frame):
             return
 
         # print "Stampa"
-        
+
         if len(self.bevandeOverride) > 0 :
             # check bevande override
             #Item_to_patch = ['check', 'list', 'box', 'another']
             #myd = BevandeOverrideDialog(Item_to_patch)
-            
-            # pay attention we must clone list as it will be changed in dialog 
+
+            # pay attention we must clone list as it will be changed in dialog
             bevande_before = list(self.bevandeOverride)
             myd = BevandeOverrideDialog(self.bevandeOverride)
             if myd.ShowModal() != wx.ID_OK:
                 return
             else:
-                #print " * Bevande text changed:", myd.GetChecked() 
+                #print " * Bevande text changed:", myd.GetChecked()
                 bevande_overrided = myd.GetChecked()
                 #print bevande_overrided[0]
 
@@ -2384,19 +2459,19 @@ class WxSagra(wx.Frame):
         colonna = 0
         vert = 0
 
-        # todo in bevande we can change descrition only in printed output 
+        # todo in bevande we can change descrition only in printed output
         #      to set this feature portata for bevande must contain *
-        #      to handle this feature we use note[] 
+        #      to handle this feature we use note[]
 
-        # intestazione  prima   riga Tahoma y (pos 72 ) nuovariga +30 (add to vert) 
-        #               seconda riga Arial  y (pos 112) nuovariga +24 (add to vert) 
-        #               terza   riga Arial  y (pos 136) nuovariga +24 (add to vert) 
-        #               quarta  riga Arial  y (pos 160) nuovariga +24 (add to vert) 
+        # intestazione  prima   riga Tahoma y (pos 72 ) nuovariga +30 (add to vert)
+        #               seconda riga Arial  y (pos 112) nuovariga +24 (add to vert)
+        #               terza   riga Arial  y (pos 136) nuovariga +24 (add to vert)
+        #               quarta  riga Arial  y (pos 160) nuovariga +24 (add to vert)
 
         doc.setfont("Tahoma", 24 )
         #doc.text((72, 72), "Testing...")
         #doc.text((72, 72+48), "Testing #2")
-        box = "intestazione" 
+        box = "intestazione"
         label_override = [""] * 4
         # print "\n",box
         for item in self.r[box]:
@@ -2405,24 +2480,24 @@ class WxSagra(wx.Frame):
             # print riga
             lunghezza_riga = len(self.r[box][item])
             # print lunghezza_riga
-            if riga == 0: 
+            if riga == 0:
                 doc.text((30, 80 ), self.r[box][item])
                 nuovariga= 24
                 vert += nuovariga
-            if (riga > 0 and riga < 4): 
+            if (riga > 0 and riga < 4):
                doc.setfont("Arial",20)
                doc.text((30 + (45-lunghezza_riga/2)*2, 80 + vert), self.r[box][item])
                nuovariga = 20
                vert += nuovariga
-            # posizionati sulla riga seguente 
-            if riga >= 4 : 
+            # posizionati sulla riga seguente
+            if riga >= 4 :
                 label_override[ riga -4] = self.r[box][item]
                 #break
             riga += 1
 
-        #                   
-        #riga data ora menu 
-        #                   
+        #
+        #riga data ora menu
+        #
         now = datetime.datetime.now()
         filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
         piatti_log = []
@@ -2431,25 +2506,25 @@ class WxSagra(wx.Frame):
            #piatti_log = load_tabbed_file(filename)
            #self.menunumero = piatti_log[0][2]
            # print "ultimo menu" , piatti_log[0][2]
-        doc.setfont("Arial",10, None,1) 
+        doc.setfont("Arial",10, None,1)
         if self.menu_data_ora == 1:
-            riga_data_ora = str(now.strftime("%A-%d-%m-%Y %H:%M:%S")) 
+            riga_data_ora = str(now.strftime("%A-%d-%m-%Y %H:%M:%S"))
         else:
             riga_data_ora = str(now.strftime("%A-%d-%m-%Y"))
         if self.menu_progr == 1:
             riga_data_ora = riga_data_ora + "    menu = "+ str(int(self.menunumero) + 1)
         doc.text((30, 85 + vert), riga_data_ora)
 
-        #                   
-        # stampa piede.bmp  
-        #                   
+        #
+        # stampa piede.bmp
+        #
         if os.path.exists("piede.bmp"):
             doc.image((1,580),"piede.bmp",( 500,200))
         else:
             print "Non presente file grafico piede.bmp"
 
         # test se gruppo contiene portata da stampare
-        x = 0 
+        x = 0
         flag = 0
         vert += 14
         for item in self.r["Primi"]:
@@ -2461,19 +2536,19 @@ class WxSagra(wx.Frame):
             doc.text((30, 80 + vert), label_override[0])
             vert += 16
             doc.setfont("Arial",12)
-            x = 0 
+            x = 0
             for item in self.r["Primi"]:
                 if self.QtaRiga[x] > 0 :
-                    # printitem, 
-                    # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x] 
+                    # printitem,
+                    # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x]
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
                     doc.text((55, 80 + vert), self.Voce[x])
                     doc.text((360, 80 + vert), u"€")
                     doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
                     vert += 11
                 x += 1
-   
-        x = 10 
+
+        x = 10
         flag = 0
         for item in self.r["Secondi"]:
             if self.QtaRiga[x] > 0 : flag = 1
@@ -2484,11 +2559,11 @@ class WxSagra(wx.Frame):
             doc.text((30, 80 + vert), label_override[1])
             vert += 16
             doc.setfont("Arial",12)
-            x = 10 
+            x = 10
             for item in self.r["Secondi"]:
-                if self.QtaRiga[x] > 0 : 
-                    # printitem, 
-                    # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x] 
+                if self.QtaRiga[x] > 0 :
+                    # printitem,
+                    # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x]
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
                     doc.text((55, 80 + vert), self.Voce[x])
                     doc.text((360, 80 + vert), u"€")
@@ -2496,13 +2571,13 @@ class WxSagra(wx.Frame):
                     vert += 11
                 x += 1
 
-        # to do 
+        # to do
         # added feature 2011 to handle self service item (only in contorni)
-        # the items with @ at first position are not printed on waiter list 
-        #  but added in total cash 
-        #  on screen there is additional info for the ticket to be delivered 
+        # the items with @ at first position are not printed on waiter list
+        #  but added in total cash
+        #  on screen there is additional info for the ticket to be delivered
 
-        x = 20 
+        x = 20
         flag = 0
 
         for item in self.r["Contorni"]:
@@ -2517,14 +2592,14 @@ class WxSagra(wx.Frame):
             doc.text((30, 80 + vert), label_override[2])
             vert += 16
             doc.setfont("Arial",12)
-            x = 20 
+            x = 20
             for item in self.r["Contorni"]:
                 # test ticket
                 if (item.find ("@") != -1): ticket = 1
                 else : ticket = 0
-                if (self.QtaRiga[x] > 0  and ticket == 0 ): 
-                    # printitem, 
-                    # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x] 
+                if (self.QtaRiga[x] > 0  and ticket == 0 ):
+                    # printitem,
+                    # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x]
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
                     doc.text((55, 80 + vert), self.Voce[x])
                     doc.text((360, 80 + vert), u"€")
@@ -2532,8 +2607,8 @@ class WxSagra(wx.Frame):
                     vert += 11
                 x += 1
 
-        # on menu printout bevande description with * can be overrided  
-        x = 30 
+        # on menu printout bevande description with * can be overrided
+        x = 30
         flag = 0
         for item in self.r["Bevande"]:
             if self.QtaRiga[x] > 0 : flag = 1
@@ -2546,12 +2621,12 @@ class WxSagra(wx.Frame):
             doc.setfont("Arial",12)
             x = 30
             for item in self.r["Bevande"]:
-              # printitem, 
-              # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x] 
-                if self.QtaRiga[x] > 0 : 
+              # printitem,
+              # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x]
+                if self.QtaRiga[x] > 0 :
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
 
-                    # on menu printout bevande description with * can be overrided  
+                    # on menu printout bevande description with * can be overrided
                     tempPortata = self.Voce[x]
                     if len(self.bevandeOverride) > 0 and tempPortata.find ("*") != -1 :
                        for i_override in range(len(self.bevandeOverride)):
@@ -2576,10 +2651,10 @@ class WxSagra(wx.Frame):
         #doc.rectangle((72, 72, 72*6, 72*3))
         #doc.line((72, 72), (72*6, 72*3))
 
-        # added to complete example with print 
+        # added to complete example with print
         doc.end_page()
         doc.end_document()
-        # registra 
+        # registra
         self.OnRegistra(True)
 
     def OnOmaggi(self, event) :
@@ -2596,10 +2671,10 @@ class WxSagra(wx.Frame):
             # is destroyed under Linux - I have no idea why; but - it doesn't appear
             # to break anything so I'm leaving it
             # bKill = self.OkToContinue("Close AddMachine")
-            bKill = True  
+            bKill = True
         else :
             bKill = True
-                        
+
         if bKill == True :
             # Keep track of if we are iconized/maximized, and then restore to get accurate size
             if self.IsIconized() :
@@ -2628,9 +2703,9 @@ class WxSagra(wx.Frame):
 
     def OnAbout(self,e):
         """Displays about dialog box"""
-        dlg = wx.MessageDialog(self, 
-            "          Menu sagre version v " +script_version + 
-            "\nby Gianni Rossini - magiainformatica@alice.it \n" + 
+        dlg = wx.MessageDialog(self,
+            "          Menu sagre version v " +script_version +
+            "\nby Gianni Rossini - magiainformatica@alice.it \n" +
             "Please see additional information in accompanying help file.",
             "Menu Sagre ", wx.OK)
         dlg.ShowModal()
@@ -2646,13 +2721,13 @@ class WxSagra(wx.Frame):
             self.ShowErrorBox(e, "Unable to Display Help")
 
 if __name__ == '__main__':
-    #set italian language (for day week) 
+    #set italian language (for day week)
     #locale.setlocale(locale.LC_ALL, "italian")
 
     #  avoid deprecated message on wx.PySimpleApp()
     #     app = wx.PySimpleApp()
-    app = wx.App(None) 
+    app = wx.App(None)
     frame = WxSagra(parent=None, id=-1)
     frame.Show()
     app.MainLoop()
-    
+
