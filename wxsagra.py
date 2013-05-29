@@ -903,6 +903,7 @@ class WxSagra(wx.Frame):
         now = datetime.datetime.now()
         filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
         piatti_log = []
+        refresh_log = 0
         # print filename
         self.menunumero = 0
         if os.path.exists(filename):
