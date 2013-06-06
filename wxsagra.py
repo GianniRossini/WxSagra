@@ -2482,7 +2482,7 @@ class WxSagra(wx.Frame):
             lunghezza_riga = len(self.r[box][item])
             # print lunghezza_riga
             if riga == 0:
-                doc.text((30, 80 ), self.r[box][item])
+                doc.text((30 + (45-lunghezza_riga/2)*2, 80 ), self.r[box][item])
                 nuovariga= 24
                 vert += nuovariga
             if (riga > 0 and riga < 4):
