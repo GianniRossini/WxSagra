@@ -13,6 +13,7 @@ import string
 #     astractmodule not present in portable python installation
 import sys
 import os
+import subprocess
 import locale
 import re
 # giorni della settimana
@@ -59,7 +60,7 @@ try:
 except:
     ImageWin = None
 
-script_version = "1.03"
+script_version = "1.05 - 20130622"
 
 # reqiered by class Document
 scale_factor = 20
@@ -259,6 +260,8 @@ class BevandeOverrideDialog(wx.Dialog):
             sizer.Add((2, 2), 0, wx.EXPAND)
 
         ok = wx.Button(self, wx.ID_OK, 'Ok')
+        # added 2013-06 to accept Enter form keyboard  as Ok
+        ok.SetDefault()
         sizer.Add(ok, 0, wx.ALIGN_RIGHT|wx.ALL^wx.TOP, 5)
         self.SetSizer(sizer)
         #self.Fit()
@@ -455,6 +458,17 @@ def is_number(s):
         return True
     except ValueError:
         return False
+
+def which(path, exefile):
+    """
+    Locate a file in a PATH (for windows split is ';')
+    """
+    for p in (path or "").split(';'):
+        next = os.path.join(p, exefile)
+        if os.path.exists(next):
+            return next
+
+    return ""
 
 def load_ini(file):
 #    if (isEmpty(@file)exists(file)):
@@ -782,8 +796,8 @@ class WxSagra(wx.Frame):
         filemenu = wx.Menu()
         #filemenu.Append(ID_NEW, "&New\tCtrl+N", " Create a New xxxxx")
         #wx.EVT_MENU(self, ID_NEW, self.OnNew)
-        filemenu.Append(ID_OPEN, "&Open\tCtrl+O", " Open an xxxxxxx")
-        #wx.EVT_MENU(self, ID_OPEN, self.OnOpen)
+        filemenu.Append(ID_OPEN, "&Modifica portate\tCtrl+M", " Open portate.ini")
+        wx.EVT_MENU(self, ID_OPEN, self.OnOpen)
         self.menu_save = filemenu.Append(ID_SAVE, "&Save\tCtrl+S", " Save an Add xx")
         #wx.EVT_MENU(self, ID_SAVE, self.OnSave)
         self.menu_save_as = filemenu.Append(ID_SAVE_AS, "Save &As\tCtrl+A", " Save an Add as xxx")
@@ -1092,6 +1106,7 @@ class WxSagra(wx.Frame):
         self.val_cassa = wx.TextCtrl(id=wxID_WXSAGRAVAL_CASSA, name='val_cassa',
               parent=panel, pos=wx.Point(210, 526), size=wx.Size(64, 21),
               style=0, value='0')
+
         self.Bind(wx.EVT_TEXT, self.RestoCalc, self.val_cassa)
 
         self.lbl_resto = wx.StaticText(id=wxID_WXSAGRALBL_RESTO,
@@ -1360,6 +1375,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnPrimi_2(self, event):
@@ -1373,6 +1391,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnPrimi_3(self, event):
@@ -1386,6 +1407,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnPrimi_4(self, event):
@@ -1399,6 +1423,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnPrimi_5(self, event):
@@ -1412,6 +1439,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnPrimi_6(self, event):
@@ -1425,6 +1455,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
 
@@ -1439,6 +1472,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnPrimi_8(self, event):
@@ -1452,6 +1488,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnPrimi_9(self, event):
@@ -1465,6 +1504,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnPrimi_10(self, event):
@@ -1478,6 +1520,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     # evento secondi
@@ -1492,6 +1537,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields [item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnSecondi_2(self, event):
@@ -1505,6 +1553,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnSecondi_3(self, event):
@@ -1518,6 +1569,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnSecondi_4(self, event):
@@ -1531,6 +1585,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnSecondi_5(self, event):
@@ -1544,6 +1601,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnSecondi_6(self, event):
@@ -1557,6 +1617,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnSecondi_7(self, event):
@@ -1570,6 +1633,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnSecondi_8(self, event):
@@ -1596,6 +1662,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnSecondi_10(self, event):
@@ -1609,6 +1678,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
 # evento contorni
@@ -1623,6 +1695,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_2(self, event):
@@ -1636,6 +1711,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_3(self, event):
@@ -1649,6 +1727,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_4(self, event):
@@ -1662,6 +1743,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_5(self, event):
@@ -1675,6 +1759,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_6(self, event):
@@ -1688,6 +1775,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_7(self, event):
@@ -1701,6 +1791,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_8(self, event):
@@ -1714,6 +1807,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_9(self, event):
@@ -1727,6 +1823,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnContorni_10(self, event):
@@ -1740,6 +1839,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
 # evento bevande
@@ -1754,6 +1856,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnBevande_2(self, event):
@@ -1767,6 +1872,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnBevande_3(self, event):
@@ -1780,6 +1888,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnBevande_4(self, event):
@@ -1793,6 +1904,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnBevande_5(self, event):
@@ -1806,6 +1920,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnBevande_6(self, event):
@@ -1819,6 +1936,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnBevande_7(self, event):
@@ -1845,6 +1965,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnBevande_9(self, event):
@@ -1858,6 +1981,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def OnBevande_10(self, event):
@@ -1871,6 +1997,9 @@ class WxSagra(wx.Frame):
         tempqta = int(self.textFields[item].GetValue())
         tempqta = tempqta + 1
         self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
     def Piatti_Log_init(self, piatti_log, pp,ss,cc,bb):
@@ -2395,6 +2524,10 @@ class WxSagra(wx.Frame):
         self.val_TotPrec.SetValue("%.2f" % self.totmenu)
         self.val_TotalTicketPrec.SetLabel("ticket menu prec %.2f" % self.total_ticket)
 
+        #added 2013-06
+        self.val_cassa.SetFocus()
+        self.val_cassa.SetSelection(-1,-1)
+
         # save also omaggi in a companion piatti_omaggiaaaa-mm-gg
         # portate quantity reported for omaggi are only for reference
         # real portate quantity are alredy reported in piatti_log
@@ -2482,7 +2615,7 @@ class WxSagra(wx.Frame):
             lunghezza_riga = len(self.r[box][item])
             # print lunghezza_riga
             if riga == 0:
-                doc.text((30 + (45-lunghezza_riga/2)*2, 80 ), self.r[box][item])
+                doc.text((30, 80 ), self.r[box][item])
                 nuovariga= 24
                 vert += nuovariga
             if (riga > 0 and riga < 4):
@@ -2720,6 +2853,24 @@ class WxSagra(wx.Frame):
             dlg.Destroy()
         except e :
             self.ShowErrorBox(e, "Unable to Display Help")
+
+    def OnOpen(self, e) :
+        """Open portate.ini with editor """
+        try :
+            #  os.startfile('portate.ini')
+            Editor_program = 'notepad.exe'
+            if which (os.getenv("PATH"),Editor_program):
+                subprocess.Popen("%s %s" % (Editor_program, 'portate.ini'))
+            else: 
+                self.ShowErrorBox('sorry, not found '+ Editor_program, "Unable to open portate.ini")
+        except e :
+            self.ShowErrorBox(e, "Unable to Open portate.ini")
+
+    def ShowErrorBox(self, message, title) :
+        """Shows an error message box"""
+        dlg = wx.MessageDialog(self, message, title, wx.OK | wx.ICON_ERROR)
+        dlg.ShowModal()
+        dlg.Destroy()
 
 if __name__ == '__main__':
     #set italian language (for day week)
