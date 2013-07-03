@@ -60,7 +60,7 @@ try:
 except:
     ImageWin = None
 
-script_version = "1.05 - 20130622"
+script_version = "1.06 - 20130702"
 
 # reqiered by class Document
 scale_factor = 20
@@ -2678,7 +2678,11 @@ class WxSagra(wx.Frame):
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
                     doc.text((55, 80 + vert), self.Voce[x])
                     doc.text((360, 80 + vert), u"€")
-                    doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
+                    # doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
+                    if self.TotaliRiga[x] > 9:
+                        doc.text((397, 80 + vert), "%5.2f" % (self.TotaliRiga[x]))
+                    else:
+                        doc.text((400, 80 + vert), "%5.2f" % (self.TotaliRiga[x]))
                     vert += 11
                 x += 1
 
@@ -2701,7 +2705,11 @@ class WxSagra(wx.Frame):
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
                     doc.text((55, 80 + vert), self.Voce[x])
                     doc.text((360, 80 + vert), u"€")
-                    doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
+                    # doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
+                    if self.TotaliRiga[x] > 9:
+                        doc.text((397, 80 + vert), "%5.2f" % (self.TotaliRiga[x]))
+                    else:
+                        doc.text((400, 80 + vert), "%5.2f" % (self.TotaliRiga[x]))
                     vert += 11
                 x += 1
 
@@ -2737,7 +2745,11 @@ class WxSagra(wx.Frame):
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
                     doc.text((55, 80 + vert), self.Voce[x])
                     doc.text((360, 80 + vert), u"€")
-                    doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
+                    # doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
+                    if self.TotaliRiga[x] > 9:
+                        doc.text((397, 80 + vert), "%5.2f" % (self.TotaliRiga[x]))
+                    else:
+                        doc.text((400, 80 + vert), "%5.2f" % (self.TotaliRiga[x]))
                     vert += 11
                 x += 1
 
@@ -2770,15 +2782,20 @@ class WxSagra(wx.Frame):
 
                     doc.text((55, 80 + vert), tempPortata)
                     doc.text((360, 80 + vert), u"€")
-                    doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
+                    #doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
+                    if self.TotaliRiga[x] > 9:
+                        doc.text((397, 80 + vert), "%5.2f" % (self.TotaliRiga[x]))
+                    else:
+                        doc.text((400, 80 + vert), "%5.2f" % (self.TotaliRiga[x]))
                     vert += 11
                 x += 1
 
         doc.setfont("Arial",18)
         doc.text( (290 , 80+ vert) , "Totale")
-        doc.text((360, 80 + vert), u"€")
-        doc.text((400, 80 + vert), str(self.totmenu-self.total_ticket))
+        doc.text((359, 80 + vert), u"€")
+        doc.text((376, 80 + vert), "%3.2f" % (self.totmenu-self.total_ticket))
 
+        
         if ( self.flag_omaggio == 1 ):
             doc.text( (460 , 80+ vert) , "Omaggio")
 
