@@ -60,7 +60,7 @@ try:
 except:
     ImageWin = None
 
-script_version = "1.06 - 20130702"
+script_version = "1.08 - 20130716"
 
 # reqiered by class Document
 scale_factor = 20
@@ -242,9 +242,9 @@ class MessageDialog(wx.Dialog):
             self.timer.Stop()
             self.Destroy()
 
-class BevandeOverrideDialog(wx.Dialog):
+class PortateOverrideDialog(wx.Dialog):
      def __init__(self, Choices):
-        wx.Dialog.__init__(self, None, -1, 'Bevande Override dialog',size=(300,180))
+        wx.Dialog.__init__(self, None, -1, 'Portate Override dialog',size=(300,380))
         self.Choices = Choices
         self.Overrided = Choices
         #self.clb = wx.CheckListBox(self, -1, wx.DefaultPosition,
@@ -336,20 +336,25 @@ class InfoPortate(wx.Frame):
                     self.list_ctrl.SetStringItem(self.index, 1, piatti_log[y][1])
                 else:
                     self.list_ctrl.SetStringItem(self.index, 1, str(now.strftime("%Y-%m-%d")))
+                    # save totale
+                    temptot = float(piatti_log[y][3])
                 self.list_ctrl.SetStringItem(self.index, 2, piatti_log[y][2])
                 self.list_ctrl.SetStringItem(self.index, 3, piatti_log[y][3])
                 self.index += 1
                 # add empty line
                 if self.index == 1 :
                     #add empty line
-                    self.list_ctrl.InsertStringItem(self.index, "----------------")
-                    self.list_ctrl.SetStringItem(self.index, 1, "-----------")
                     if (flag_total_omaggi == 0):
+                        self.list_ctrl.InsertStringItem(self.index, "----------------")
+                        self.list_ctrl.SetStringItem(self.index, 1, "-----------")
                         self.list_ctrl.SetStringItem(self.index, 2, "-----------")
                         self.list_ctrl.SetStringItem(self.index, 3, "-----------")
                     else :
-                        self.list_ctrl.SetStringItem(self.index, 2, "---- omaggi")
-                        self.list_ctrl.SetStringItem(self.index, 3, "-" + piatti_log_omaggi[0][3])
+                        self.list_ctrl.InsertStringItem(self.index, "cassa effettiva-")
+                        self.list_ctrl.SetStringItem(self.index, 1, " - omaggi-")
+                        self.list_ctrl.SetStringItem(self.index, 2, "- " + piatti_log_omaggi[0][3] )
+                        tempcassa = "%5.2f" % (temptot - float(piatti_log_omaggi[0][3]))
+                        self.list_ctrl.SetStringItem(self.index, 3, "= " + tempcassa)
                     self.index += 1
 
 
@@ -851,7 +856,7 @@ class WxSagra(wx.Frame):
         self.PortataPrice = [0]*100  # single item qty
 
         # add empty list for portata bevande overridable in print
-        self.bevandeOverride = []
+        self.portateOverride = []
         self.totmenu = 0
 
         #
@@ -875,6 +880,45 @@ class WxSagra(wx.Frame):
                 self.menu_data_ora = int(self.r[box][item])
             if item == "menu_progr" :
                 self.menu_progr = int(self.r[box][item])
+
+        # check inifile - portate cannot contain , ;
+        # used in log file piattixxxxxx.csv to delimit field
+        flag_inifile = 0
+        box = "Primi"
+        # print "\n",box
+        for item in self.r[box]:
+            if (item.find(",") != -1) or (item.find(";") != -1):
+                print item, self.r[box][item]
+                flag_inifile = 1
+        box = "Secondi"
+        # print "\n",box
+        for item in self.r[box]:
+            if (item.find(",") != -1) or (item.find(";") != -1):
+                print item, self.r[box][item]
+                flag_inifile = 1
+        box = "Contorni"
+        # print "\n",box
+        for item in self.r[box]:
+            if (item.find(",") != -1) or (item.find(";") != -1):
+                print item, self.r[box][item]
+                flag_inifile = 1
+        box = "Bevande"
+        # print "\n",box
+        for item in self.r[box]:
+            if (item.find(",") != -1) or (item.find(";") != -1):
+                print item, self.r[box][item]
+                flag_inifile = 1
+        if (flag_inifile == 1):
+            self.ShowErrorBox(
+                    "\n la , oppure il ; sono caratteri non ammessi nelle portate",
+                    "portate.ini non valido")
+            self.Destroy
+            self.OnExit()
+
+
+
+
+
 
         if self.debug == 1 :
             box = "stampa"
@@ -930,16 +974,24 @@ class WxSagra(wx.Frame):
             for y in range(count,len(piatti_log)) :
                 riga = piatti_log[y][0]
                 #  magia 2010 k non da' errore sui piatti rimossi - da portate.ini
-                if (self.r['QINZ'][riga] < 0):
-                    piatti_log[y][4] = ""
-                else :
-                    # per questa portata imposto
-                    #   quantita residua = quantita limite iniziale - quntita gia' venduta
-                    self.r['QRES'][riga] = self.r['QINZ'][riga] - float(piatti_log[y][2])
-                    #    update log due change in QINZ after reloading)
-                    if (piatti_log[y][4] != ""):
-                        piatti_log[y][4] = self.r['QRES'][riga]
-                        refresh_log = 1
+                try:
+                    if (self.r['QINZ'][riga] < 0):
+                        piatti_log[y][4] = ""
+                    else :
+                        # per questa portata imposto
+                        #   quantita residua = quantita limite iniziale - quntita gia' venduta
+                        self.r['QRES'][riga] = self.r['QINZ'][riga] - float(piatti_log[y][2])
+                        #    update log due change in QINZ after reloading)
+                        if (piatti_log[y][4] != ""):
+                            piatti_log[y][4] = self.r['QRES'][riga]
+                            refresh_log = 1
+                except:
+                    self.ShowErrorBox( riga +
+                        "\nmodifica valida solo ad inizio lavoro \n oppure intervieni anche sulla riga di piattiaaaa-mm-gg.csv",
+                        "portate.ini non coerente con log")
+                    self.Destroy
+                    self.OnExit()
+
             if (refresh_log == 1) :
                 save_tabbed_file(filename,piatti_log)
 # code from winbinder version to manage piatti residui  - to do -
@@ -982,19 +1034,19 @@ class WxSagra(wx.Frame):
         f_weekday = [calendar.day_name[i].lower() for i in range(7)]
         #print f_weekday
         self.staticBox4 = wx.StaticBox(id=wxID_WXSAGRASTATICBOX4,
-                label="Bevande", name="staticBox4", parent=panel,
-                pos = wx.Point(352, 280), size=wx.Size(336, 232), style=0)
+                label=self.r["intestazione"]["label_Bevande"], name="staticBox4", parent=panel,
+                pos = wx.Point(352, 280), size=wx.Size(336, 235), style=0)
 
         self.staticBox2 = wx.StaticBox(id=wxID_WXSAGRASTATICBOX2,
-              label=u'Secondi', name='staticBox2', parent=panel,
+              label=self.r["intestazione"]["label_Secondi"], name='staticBox2', parent=panel,
               pos=wx.Point(352, 32), size=wx.Size(336, 232), style=0)
 
         self.staticBox3 = wx.StaticBox(id=wxID_WXSAGRASTATICBOX3,
-              label=u'Contorni', name='staticBox3', parent=panel,
-              pos=wx.Point(8, 280), size=wx.Size(336, 232), style=0)
+              label=self.r["intestazione"]["label_Contorni"], name='staticBox3', parent=panel,
+              pos=wx.Point(8, 280), size=wx.Size(336, 235), style=0)
 
         self.staticBox1 = wx.StaticBox(id=wxID_WXSAGRASTATICBOX1,
-              label=u'Primi', name=u'staticBox1', parent=panel,
+              label=self.r["intestazione"]["label_Primi"], name=u'staticBox1', parent=panel,
               pos=wx.Point(8, 32), size=wx.Size(336, 232), style=0)
 
 
@@ -1199,7 +1251,8 @@ class WxSagra(wx.Frame):
                 ("Bevande_7", self.OnBevande_7),
                 ("Bevande_8", self.OnBevande_8),
                 ("Bevande_9", self.OnBevande_9),
-                ("Bevande_10", self.OnBevande_10))
+                ("Bevande_9", self.OnBevande_10),
+                ("Bevande_10", self.OnBevande_11))
 
     def buttonData_Comandi(self):
         return (("Annulla", self.OnAnnulla),
@@ -1273,12 +1326,12 @@ class WxSagra(wx.Frame):
 
     def createButtonBar4(self, panel, xPos = 384):
         yPos = 295
-        dimens = (256,21)
+        dimens = (256,18)
         #for eachLabel, eachHandler in self.buttonData_bevande():
         handler = ( self.OnBevande_1, self.OnBevande_2,self.OnBevande_3,
                     self.OnBevande_4, self.OnBevande_5,self.OnBevande_6,
                     self.OnBevande_7, self.OnBevande_8,self.OnBevande_9,
-                    self.OnBevande_10)
+                    self.OnBevande_10, self.OnBevande_11, self.OnBevande_12)
         x = 0
         for eachLabel in self.r['Bevande']:
             eachHandler = handler[x]
@@ -2002,6 +2055,37 @@ class WxSagra(wx.Frame):
         self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
+    def OnBevande_11(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
+        # to use in calculation we must convert it to numeric
+        x = 0
+        for item  in self.r["Bevande"]:
+            x += 1
+            if (x == 11): break
+        tempqta = int(self.textFields[item].GetValue())
+        tempqta = tempqta + 1
+        self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
+        # textFields - bottontext is binded on change to self.TotalCalc(0)
+
+    def OnBevande_12(self, event):
+        # self.model.set("Betty", "Rubble")
+        # get value return string -
+        # to use in calculation we must convert it to numeric
+        x = 0
+        for item  in self.r["Bevande"]:
+            x += 1
+            if (x == 12): break
+        tempqta = int(self.textFields[item].GetValue())
+        tempqta = tempqta + 1
+        self.textFields[item].SetValue("%d" % tempqta)
+        # added 2013-06
+        self.textFields[item].SetFocus()
+        self.textFields[item].SetSelection(-1, -1)
+        # textFields - bottontext is binded on change to self.TotalCalc(0)
     def Piatti_Log_init(self, piatti_log, pp,ss,cc,bb):
         i= 1
         #line=[0,"",0,0,""]
@@ -2080,7 +2164,7 @@ class WxSagra(wx.Frame):
 
         # leggi tutte le portate di questo menu dalle tuples
         i= 1
-        for x in range(40) :
+        for x in range(42) :
           if self.Voce[x] != "" and self.QtaRiga[x] > 0:
             # print "get info from Voce[x] ", x, self.Voce[x]
             # test per piatto da aggiornare  non trovato piatti_log
@@ -2133,7 +2217,7 @@ class WxSagra(wx.Frame):
 
         # leggi tutte le portate di questo menu dalle tuples
         i= 1
-        for x in range(40) :
+        for x in range(42) :
           if self.Voce[x] != "" and self.QtaRiga[x] > 0:
             # print "get info from Voce[x] ", x, self.Voce[x]
             # test per piatto da aggiornare  non trovato piatti_log
@@ -2220,7 +2304,9 @@ class WxSagra(wx.Frame):
           ctl.ChangeValue(str(0))
           ctl.SetSelection(-1,-1)
 
+
         self.total_ticket=0
+        del self.portateOverride[:]
         x = 0
         for item in self.r["Primi"]:
             # printitem,
@@ -2231,6 +2317,10 @@ class WxSagra(wx.Frame):
             self.QtaRiga[x] = tempqta
             self.TotaliRiga[x] = tempqta* self.r['Primi'][item]
             self.PortataPrice[x] = self.r['Primi'][item]
+
+            # handle portate override
+            if tempqta > 0 and item.find ("*") != -1 :
+                self.portateOverride.append(item)
 
             """ superseeded by solution 2 on blank
             if is_number(tempqta) :
@@ -2255,6 +2345,10 @@ class WxSagra(wx.Frame):
               self.QtaRiga[x] = tempqta
               self.TotaliRiga[x] = tempqta* self.r['Secondi'][item]
               self.PortataPrice[x] = self.r['Secondi'][item]
+
+              # handle portate override
+              if tempqta > 0 and item.find ("*") != -1 :
+                self.portateOverride.append(item)
             x += 1
         x = 20
         for item in self.r["Contorni"]:
@@ -2272,10 +2366,14 @@ class WxSagra(wx.Frame):
               if (item.find ("@") != -1):
                 self.total_ticket= self.total_ticket + self.TotaliRiga[x]
               #
+              # handle portate override
+              if tempqta > 0 and item.find ("*") != -1 :
+                self.portateOverride.append(item)
             x += 1
 
-        # clear bevande override
-        del self.bevandeOverride[:]
+        # clear portate override
+        # upgrade 201307 - we can override primi - secondi -contorni e bevande
+        # del self.portateOverride[:]
 
         x = 30
         for item in self.r["Bevande"]:
@@ -2289,15 +2387,15 @@ class WxSagra(wx.Frame):
               self.QtaRiga[x] = tempqta
               self.TotaliRiga[x] = tempqta* self.r['Bevande'][item]
               self.PortataPrice[x] = self.r['Bevande'][item]
-              # handle bevande override
+              # handle portate override
               if tempqta > 0 and item.find ("*") != -1 :
-                self.bevandeOverride.append(item)
+                self.portateOverride.append(item)
             x += 1
         #
         # aggiorno il totale del memnu
         #
         self.totmenu = 0
-        for i in range(40):
+        for i in range(42):
             self.totmenu = self.totmenu + self.TotaliRiga[i]
         self.GrandTotal.SetValue("%.2f" % self.totmenu)
 
@@ -2424,7 +2522,7 @@ class WxSagra(wx.Frame):
         # aggiorno il totale del memnu
         #
         #t = 0
-        #for i in range(40):
+        #for i in range(42):
         #    t = t + self.TotaliRiga[i]
         #self.GrandTotal.SetValue("%.2f" % t)
 
@@ -2569,20 +2667,20 @@ class WxSagra(wx.Frame):
 
         # print "Stampa"
 
-        if len(self.bevandeOverride) > 0 :
+        if len(self.portateOverride) > 0 :
             # check bevande override
             #Item_to_patch = ['check', 'list', 'box', 'another']
-            #myd = BevandeOverrideDialog(Item_to_patch)
+            #myd = PortateOverrideDialog(Item_to_patch)
 
             # pay attention we must clone list as it will be changed in dialog
-            bevande_before = list(self.bevandeOverride)
-            myd = BevandeOverrideDialog(self.bevandeOverride)
+            portate_before = list(self.portateOverride)
+            myd = PortateOverrideDialog(self.portateOverride)
             if myd.ShowModal() != wx.ID_OK:
                 return
             else:
-                #print " * Bevande text changed:", myd.GetChecked()
-                bevande_overrided = myd.GetChecked()
-                #print bevande_overrided[0]
+                #print " * Portate text changed:", myd.GetChecked()
+                portate_overrided = myd.GetChecked()
+                #print portate_overrided[0]
 
         # ini setting for print info about menu and data_ora moved after load ini setting
         doc = document(orientation = "portrait")
@@ -2645,8 +2743,9 @@ class WxSagra(wx.Frame):
             riga_data_ora = str(now.strftime("%A-%d-%m-%Y %H:%M:%S"))
         else:
             riga_data_ora = str(now.strftime("%A-%d-%m-%Y"))
-        if self.menu_progr == 1:
-            riga_data_ora = riga_data_ora + "    menu = "+ str(int(self.menunumero) + 1)
+        if self.menu_progr > 0:
+            riga_data_ora = riga_data_ora + "    menu " +str(int(self.menu_progr)) + "= "+ str(int(self.menunumero) + 1)
+
         doc.text((30, 85 + vert), riga_data_ora)
 
         #
@@ -2676,7 +2775,17 @@ class WxSagra(wx.Frame):
                     # printitem,
                     # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x]
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
-                    doc.text((55, 80 + vert), self.Voce[x])
+
+                    # doc.text((55, 80 + vert), self.Voce[x])
+                    # on menu printout bevande description with * can be overrided
+                    tempPortata = self.Voce[x]
+                    if len(self.portateOverride) > 0 and tempPortata.find ("*") != -1 :
+                       for i_override in range(len(self.portateOverride)):
+                            # print i_override, self.Voce[x] , portate_before[i_override],portate_overrided[i_override]
+                            if self.Voce[x] == portate_before[i_override]:
+                               tempPortata = portate_overrided[i_override]
+
+                    doc.text((55, 80 + vert), tempPortata)
                     doc.text((360, 80 + vert), u"€")
                     # doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
                     if self.TotaliRiga[x] > 9:
@@ -2703,7 +2812,18 @@ class WxSagra(wx.Frame):
                     # printitem,
                     # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x]
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
-                    doc.text((55, 80 + vert), self.Voce[x])
+
+                    # doc.text((55, 80 + vert), self.Voce[x])
+                    # on menu printout portate description with * can be overrided
+                    tempPortata = self.Voce[x]
+                    if len(self.portateOverride) > 0 and tempPortata.find ("*") != -1 :
+                       for i_override in range(len(self.portateOverride)):
+                            # print i_override, self.Voce[x] , portate_before[i_override],portate_overrided[i_override]
+                            if self.Voce[x] == portate_before[i_override]:
+                               tempPortata = portate_overrided[i_override]
+
+                    doc.text((55, 80 + vert), tempPortata)
+
                     doc.text((360, 80 + vert), u"€")
                     # doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
                     if self.TotaliRiga[x] > 9:
@@ -2743,7 +2863,18 @@ class WxSagra(wx.Frame):
                     # printitem,
                     # print x, self.Voce[x] , self.Portata[x] , self.QtaRiga[x] , self.TotaliRiga[x]
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
-                    doc.text((55, 80 + vert), self.Voce[x])
+
+                    # doc.text((55, 80 + vert), self.Voce[x])
+                    # on menu printout portate description with * can be overrided
+                    tempPortata = self.Voce[x]
+                    if len(self.portateOverride) > 0 and tempPortata.find ("*") != -1 :
+                       for i_override in range(len(self.portateOverride)):
+                            # print i_override, self.Voce[x] , portate_before[i_override],portate_overrided[i_override]
+                            if self.Voce[x] == portate_before[i_override]:
+                               tempPortata = portate_overrided[i_override]
+
+                    doc.text((55, 80 + vert), tempPortata)
+
                     doc.text((360, 80 + vert), u"€")
                     # doc.text((400, 80 + vert), str(self.TotaliRiga[x]))
                     if self.TotaliRiga[x] > 9:
@@ -2772,13 +2903,13 @@ class WxSagra(wx.Frame):
                 if self.QtaRiga[x] > 0 :
                     doc.text((30, 80 + vert), str(self.QtaRiga[x]))
 
-                    # on menu printout bevande description with * can be overrided
+                    # on menu printout portate description with * can be overrided
                     tempPortata = self.Voce[x]
-                    if len(self.bevandeOverride) > 0 and tempPortata.find ("*") != -1 :
-                       for i_override in range(len(self.bevandeOverride)):
-                            # print i_override, self.Voce[x] , bevande_before[i_override],bevande_overrided[i_override]
-                            if self.Voce[x] == bevande_before[i_override]:
-                               tempPortata = bevande_overrided[i_override]
+                    if len(self.portateOverride) > 0 and tempPortata.find ("*") != -1 :
+                       for i_override in range(len(self.portateOverride)):
+                            # print i_override, self.Voce[x] , portate_before[i_override],portate_overrided[i_override]
+                            if self.Voce[x] == portate_before[i_override]:
+                               tempPortata = portate_overrided[i_override]
 
                     doc.text((55, 80 + vert), tempPortata)
                     doc.text((360, 80 + vert), u"€")
@@ -2795,9 +2926,9 @@ class WxSagra(wx.Frame):
         doc.text((359, 80 + vert), u"€")
         doc.text((376, 80 + vert), "%3.2f" % (self.totmenu-self.total_ticket))
 
-        
+
         if ( self.flag_omaggio == 1 ):
-            doc.text( (460 , 80+ vert) , "Omaggio")
+            doc.text( (450 , 80+ vert) , "Omaggio")
 
         #doc.rectangle((72, 72, 72*6, 72*3))
         #doc.line((72, 72), (72*6, 72*3))
@@ -2843,7 +2974,8 @@ class WxSagra(wx.Frame):
 
     def OnCloseWindow(self, event):
         self.Destroy
-        self.InfoPortatePanel.Close(True)
+        if self.InfoPortatePanel :
+           self.InfoPortatePanel.Close(True)
 
     def OnExit(self,e):
         """Closes the application"""
@@ -2878,7 +3010,7 @@ class WxSagra(wx.Frame):
             Editor_program = 'notepad.exe'
             if which (os.getenv("PATH"),Editor_program):
                 subprocess.Popen("%s %s" % (Editor_program, 'portate.ini'))
-            else: 
+            else:
                 self.ShowErrorBox('sorry, not found '+ Editor_program, "Unable to open portate.ini")
         except e :
             self.ShowErrorBox(e, "Unable to Open portate.ini")
