@@ -60,7 +60,7 @@ try:
 except:
     ImageWin = None
 
-script_version = "1.08 - 20130716"
+script_version = "1.08 - 20130718"
 
 # reqiered by class Document
 scale_factor = 20
@@ -535,11 +535,23 @@ def load_ini(file):
                         # print "found ? v is: " + v
                         p, q = v.split('?')
                         # print "--chiave is: " + chiave + " k is: " + k +" p is: " + p +" q is: " + q
-                        cfg[k] = float (p)
+                        try:
+                            cfg[k] = float (p)
+                        except:
+                             dlg = MessageDialog(" errore nel costo di " + k + ' cambiato , con .', 'Info', 5)
+                             dlg.ShowModal()
+                             p=p.replace (",",".")
+                             cfg[k] = float (p)
                         serviti[k] = int(q)
                     else :
                         # print "--chiave is: " + chiave + " k is: " + k +" v is: " + v
-                        cfg[k] = float(v)
+                        try:
+                            cfg[k] = float (v)
+                        except:
+                             dlg = MessageDialog(" errore nel costo di " + k + ' cambiato , con .', 'Info', 5)
+                             dlg.ShowModal()
+                             v=v.replace (",",".")
+                             cfg[k] = float (v)
                         serviti[k] = -1
 # at end of file
     # print "\n at end chiave is " + chiave
