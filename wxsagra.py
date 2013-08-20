@@ -60,7 +60,7 @@ try:
 except:
     ImageWin = None
 
-script_version = "1.08 - 20130718"
+script_version = "1.09 - 20130818"
 
 # reqiered by class Document
 scale_factor = 20
@@ -511,6 +511,8 @@ def load_ini(file):
                     piatti = 1
                     #serviti = {}
                     serviti = OrderedDict()
+                    limiti_inz = OrderedDict()
+                    venduti = OrderedDict()
                     #print "piatti is: " + str(piatti)
 
             else :
@@ -542,7 +544,18 @@ def load_ini(file):
                              dlg.ShowModal()
                              p=p.replace (",",".")
                              cfg[k] = float (p)
-                        serviti[k] = int(q)
+
+                        if is_number(q) :
+                            serviti[k] = int(q)
+                            limiti_inz[k] = int(q)
+                            venduti[k] = 0
+                        else:
+                            dlg = MessageDialog(" errore nell'impostazione dei residui per " + k + ' , non impostato limite', 'Info', 5)
+                            dlg.ShowModal()
+                            serviti[k] = -1
+                            limiti_inz[k] = -1
+                            venduti[k] = 0
+
                     else :
                         # print "--chiave is: " + chiave + " k is: " + k +" v is: " + v
                         try:
@@ -553,13 +566,15 @@ def load_ini(file):
                              v=v.replace (",",".")
                              cfg[k] = float (v)
                         serviti[k] = -1
+                        limiti_inz[k] = -1
+                        venduti[k] = 0
 # at end of file
     # print "\n at end chiave is " + chiave
     # print cfg
     r[chiave] = cfg
-    r['QINZ'] = serviti
+    r['QINZ'] = limiti_inz
     r['QRES'] = serviti
-
+    r['QVEND'] = venduti
     return r
 
 # load_tabbed_file(string filepath)
@@ -993,6 +1008,8 @@ class WxSagra(wx.Frame):
                         # per questa portata imposto
                         #   quantita residua = quantita limite iniziale - quntita gia' venduta
                         self.r['QRES'][riga] = self.r['QINZ'][riga] - float(piatti_log[y][2])
+                        # 2103-08 added piatti venduti info
+                        self.r['QVEND'][riga] = float(piatti_log[y][2])
                         #    update log due change in QINZ after reloading)
                         if (piatti_log[y][4] != ""):
                             piatti_log[y][4] = self.r['QRES'][riga]
@@ -2192,6 +2209,10 @@ class WxSagra(wx.Frame):
                     piatti_log[y][3] = float(piatti_log[y][3]) - self.TotaliRiga[x]
                     piatti_log[y][4] = self.r['QINZ'][riga] + self.QtaRiga[x]
                     self.r['QRES'][riga] = self.r['QINZ'][riga] + self.QtaRiga[x]
+
+                    # 2013-08 retain piatti venduti 
+                    self.r['QVEND'][riga] = self.r['QVEND'][riga] - self.QtaRiga[x]
+
                     if self.debug == 1 :
                         print "updated  ", piatti_log[y], "QRES: ", self.r['QRES'][riga]
                     tmp_totmenu = tmp_totmenu + self.TotaliRiga[x]
@@ -2235,22 +2256,29 @@ class WxSagra(wx.Frame):
             # test per piatto da aggiornare  non trovato piatti_log
             piatto_found = 0
             for y in range(i,x+2) :
-                riga =  piatti_log[y][0]
-                # print "update test for " , riga
-                if (self.Voce[x] == riga):
-                    # print "found, now update piatti_log for ", x , self.Voce[x] ,\
-                    #       self.Portata[x], self.QtaRiga[x]
-                    # print "previous ", piatti_log[y] , "QRES: ", self.r['QRES'][riga]
-                    piatti_log[y][2] = float(piatti_log[y][2]) + self.QtaRiga[x]
-                    piatti_log[y][3] = float(piatti_log[y][3]) + self.TotaliRiga[x]
-                    piatti_log[y][4] = self.r['QINZ'][riga] - self.QtaRiga[x]
-                    self.r['QRES'][riga] = self.r['QINZ'][riga] - self.QtaRiga[x]
-                    if self.debug == 1 :
-                        print "updated  ", piatti_log[y], "QRES: ", self.r['QRES'][riga]
-                    tmp_totmenu = tmp_totmenu + self.TotaliRiga[x]
-                    piatto_found = 1
-                    break
+                # print "2245 - Piatti Log_update ", y , x
+                try:
+                    riga =  piatti_log[y][0]
+                    # print "update test for " , riga
+                    if (self.Voce[x] == riga):
+                      # print "found, now update piatti_log for ", x , self.Voce[x] ,\
+                      #       self.Portata[x], self.QtaRiga[x]
+                      # print "previous ", piatti_log[y] , "QRES: ", self.r['QRES'][riga]
+                      piatti_log[y][2] = float(piatti_log[y][2]) + self.QtaRiga[x]
+                      piatti_log[y][3] = float(piatti_log[y][3]) + self.TotaliRiga[x]
+                      piatti_log[y][4] = self.r['QINZ'][riga] - self.QtaRiga[x]
+                      self.r['QRES'][riga] = self.r['QINZ'][riga] - self.QtaRiga[x]
 
+                      # 2013-08 retain piatti venduti 
+                      self.r['QVEND'][riga] = self.r['QVEND'][riga] + self.QtaRiga[x]
+                    
+                      if self.debug == 1 :
+                         print "updated  ", piatti_log[y], "QRES: ", self.r['QRES'][riga]
+                      tmp_totmenu = tmp_totmenu + self.TotaliRiga[x]
+                      piatto_found = 1
+                      break
+                except:
+                      print "piatto non presente - aggiungere", self.Voce[x]
             # piatto non presente in piatti_log (aggiunto durante la sessione)
             # aggiungo la relativa riga
             if piatto_found == 0:
@@ -2261,9 +2289,10 @@ class WxSagra(wx.Frame):
                 #piatti_log[][3] = 0                 #valore
                 #piatti_log[][4] = self.r['QINZ'][item]
                 if self.debug == 1 :
-                    print " aggiungo portata non presente in piatti_log " , riga
+                    print " aggiungo portata non presente in piatti_log " , self.Voce[x]
+                # print " aggiungo portata non presente in piatti_log " , self.Voce[x]
                 line=[0,"",0,0,""]
-                line[0] = riga
+                line[0] = self.Voce[x]
                 # print self.TotaliRiga[x]/self.QtaRiga[x]
                 line[1] = self.TotaliRiga[x]/self.QtaRiga[x]
                 # print self.PortataPrice[x]
@@ -2437,7 +2466,7 @@ class WxSagra(wx.Frame):
                 #print ss
 
                 # 2013 - we need additional  check on field value
-                #       from dalla validation can arrive  blank
+                #       from validation can arrive  blank
                 #       to prevent int conversion error
                 #       little function is_number() is provided
 
@@ -2446,10 +2475,11 @@ class WxSagra(wx.Frame):
                     #print item,
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
-                    tempqta = self.textFields [item].GetValue()
+                    tempqta = self.textFields[item].GetValue()
                     if is_number(tempqta) :
                       tempqta = int(tempqta)
-                      temp_res = self.r['QRES'][item] - tempqta
+                      # temp_res = self.r['QRES'][item] - tempqta
+                      temp_res = self.r['QINZ'][item] - self.r['QVEND'][item]- tempqta
                       if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
                       else:
@@ -2459,10 +2489,11 @@ class WxSagra(wx.Frame):
                     #print item,
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
-                    tempqta = self.textFields [item].GetValue()
+                    tempqta = self.textFields[item].GetValue()
                     if is_number(tempqta) :
                       tempqta = int(tempqta)
-                      temp_res = self.r['QRES'][item] - tempqta
+                      # temp_res = self.r['QRES'][item] - tempqta
+                      temp_res = self.r['QINZ'][item] - self.r['QVEND'][item]- tempqta
                       if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
                       else:
@@ -2472,11 +2503,13 @@ class WxSagra(wx.Frame):
                     #print item,
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
-                    tempqta = self.textFields [item].GetValue()
+                    tempqta = self.textFields[item].GetValue()
                     if is_number(tempqta) :
                       tempqta = int(tempqta)
-                      temp_res = self.r['QRES'][item] - tempqta
-                      if (self.r['QINZ'][item] >= 0) :
+                      # temp_res = self.r['QRES'][item] - tempqta
+                      temp_res = self.r['QINZ'][item] - self.r['QVEND'][item]- tempqta
+                      # print "test ", item, "VENDUTI", self.r['QVEND'][item],"-QINZ", self.r['QINZ'][item], "-QRES", self.r['QRES'][item]
+                      if (self.r['QINZ'][item] <> -1) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
                       else:
                         self.labelFields[item].SetLabel("")
@@ -2485,10 +2518,11 @@ class WxSagra(wx.Frame):
                     #print item,
                     # we change only if qta > 0 to avoid not needed bind on change
                     #self.textFields[item].SetValue("%d" % 0)
-                    tempqta = self.textFields [item].GetValue()
+                    tempqta = self.textFields[item].GetValue()
                     if is_number(tempqta) :
                       tempqta = int(tempqta)
-                      temp_res = self.r['QRES'][item] - tempqta
+                      # temp_res = self.r['QRES'][item] - tempqta
+                      temp_res = self.r['QINZ'][item] - self.r['QVEND'][item]- tempqta
                       if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
                       else:
@@ -2951,6 +2985,10 @@ class WxSagra(wx.Frame):
         # registra
         self.OnRegistra(True)
 
+	# if debug is 1  - problem in registration action not done.
+	#if self.totmenu > 0 :
+	#self.OnRegistra(True)
+
     def OnOmaggi(self, event) :
         # print "Omaggi"
         temp = ""
@@ -3026,6 +3064,10 @@ class WxSagra(wx.Frame):
                 self.ShowErrorBox('sorry, not found '+ Editor_program, "Unable to open portate.ini")
         except e :
             self.ShowErrorBox(e, "Unable to Open portate.ini")
+
+        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version)
+
+
 
     def ShowErrorBox(self, message, title) :
         """Shows an error message box"""
