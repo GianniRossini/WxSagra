@@ -6,25 +6,40 @@
 import wx
 import wx.html
 
-# required to validate number  2013_02 - added control to enter only number
-import string
 
-#import abstractmodel - now moved inside wxsagra
-#     astractmodule not present in portable python installation
 import sys
 import os
 import subprocess
 import locale
 import re
-# giorni della settimana
-import calendar
 
 import datetime
 from collections import OrderedDict
 
-# from MSWinPrint I used class document
-#  here is license from original MSwinPrint
+# required to validate number  2013_02 - added control to enter only number
+import string
 
+# handle week days
+import calendar
+
+import win32gui, win32ui, win32print, win32con
+import Image
+
+try:
+    from PIL import ImageWin
+except:
+    ImageWin = None
+
+
+# import pprint
+#   not yet used
+
+# import abstractmodel - now moved inside wxsagra
+#     because astractmodule is not present in portable python installation
+
+
+# from MSWinPrint I used "class document"
+#  here is license from original MSwinPrint
 """
 MSWinPrint.py
 Copyright 2006-2012 Chris Gonnerman.
@@ -51,23 +66,15 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import win32gui, win32ui, win32print, win32con
-import Image
-#import pprint
-
-try:
-    from PIL import ImageWin
-except:
-    ImageWin = None
-
 script_version = "1.09 - 20130818"
 
-# reqiered by class Document
+# ----------------------------------------------------------
+# variable required by class Document
+
 scale_factor = 20
 prdict = None
 
 # Window printer constant
-
 HORZRES = 8
 VERTRES = 10
 LOGPIXELSX = 88
@@ -92,7 +99,7 @@ orientations = {
     "landscape":    2,
 }
 
-
+# -------------------------------------
 
 # Item menu constants
 ID_ABOUT=101
@@ -107,63 +114,6 @@ ID_EDIT=1200
 ID_EXIT=110
 
 
-"""
-wxID_WXSAGRA,
-wxID_WXSAGRAANNULLA,
-wxID_WXSAGRAB1DISP,
-wxID_WXSAGRABUTTONB1,
-wxID_WXSAGRABUTTONC1,
-wxID_WXSAGRABUTTONP1,
-wxID_WXSAGRABUTTONP2,
-wxID_WXSAGRABUTTONS1,
-wxID_WXSAGRAC1DISP,
-wxID_WXSAGRADATATIME_MENUPROGR,
-wxID_WXSAGRAESCI,
-wxID_WXSAGRAINFOPORTATE,
-
-
-wxID_WXSAGRABUTTONP0,
-wxID_WXSAGRABUTTONP1,
-wxID_WXSAGRABUTTONP2,
-wxID_WXSAGRABUTTONP3,
-wxID_WXSAGRABUTTONP4,
-wxID_WXSAGRABUTTONP5,
-wxID_WXSAGRABUTTONP6,
-wxID_WXSAGRABUTTONP7,
-wxID_WXSAGRABUTTONP8,
-wxID_WXSAGRABUTTONP9,
-
-wxID_WXSAGRAOMAGGI,
-wxID_WXSAGRAP0DISP,
-wxID_WXSAGRAP1DISP,
-wxID_WXSAGRAP2DISP,
-wxID_WXSAGRAP3DISP,
-wxID_WXSAGRAP4DISP,
-wxID_WXSAGRAP5DISP,
-wxID_WXSAGRAP6DISP,
-wxID_WXSAGRAP7DISP,
-wxID_WXSAGRAP8DISP,
-wxID_WXSAGRAP9DISP,
-
-wxID_WXSAGRAPANEL1,
-wxID_WXSAGRAQTB1,
-wxID_WXSAGRAQTC1,
-wxID_WXSAGRAQTP1,
-wxID_WXSAGRAQTP2,
-wxID_WXSAGRAQTS1,
-wxID_WXSAGRAREGISTRA,
-wxID_WXSAGRAS1DISP,
-wxID_WXSAGRASTAMPA,
-
-wxID_WXSAGRASTATICTEXT1,
-wxID_WXSAGRASTATICTEXT2,
-wxID_WXSAGRASTATICTEXT3,
-wxID_WXSAGRASTATICTEXT4,
-wxID_WXSAGRASTORNA,
-wxID_WXSAGRATEXTCTRL1,
-wxID_WXSAGRATEXTCTRL2,
-wxID_WXSAGRATEXTCTRL3,
-"""
 
 wxID_WXSAGRASTATICBOX1 = wx.NewId()
 wxID_WXSAGRASTATICBOX2 = wx.NewId()
@@ -195,8 +145,10 @@ def substr (s, start, length = None):
         return s[start:start + length]
     else:
         return s[start:length]
+
 #
 # used to display autoclose message info
+#
 
 class AbstractModel(object):
 
@@ -1295,12 +1247,16 @@ class WxSagra(wx.Frame):
 
 
     def createButtonBar1(self, panel, xPos = 48):
+        # primi subpanel position and dimension
         yPos = 47
         dimens = (256,21)
+        # primi subpanel handlers ( 10  primi piatti )
         handler = ( self.OnPrimi_1, self.OnPrimi_2,self.OnPrimi_3,
                     self.OnPrimi_4, self.OnPrimi_5,self.OnPrimi_6,
                     self.OnPrimi_7, self.OnPrimi_8,self.OnPrimi_9,
                     self.OnPrimi_10)
+
+        # create primi piatti loaded from portate.ini to dictionary r[]
         x = 0
         #for eachLabel,eachpippo in self.buttonData_primi():
         for eachLabel in self.r['Primi']:
@@ -2210,7 +2166,7 @@ class WxSagra(wx.Frame):
                     piatti_log[y][4] = self.r['QINZ'][riga] + self.QtaRiga[x]
                     self.r['QRES'][riga] = self.r['QINZ'][riga] + self.QtaRiga[x]
 
-                    # 2013-08 retain piatti venduti 
+                    # 2013-08 retain piatti venduti
                     self.r['QVEND'][riga] = self.r['QVEND'][riga] - self.QtaRiga[x]
 
                     if self.debug == 1 :
@@ -2269,9 +2225,9 @@ class WxSagra(wx.Frame):
                       piatti_log[y][4] = self.r['QINZ'][riga] - self.QtaRiga[x]
                       self.r['QRES'][riga] = self.r['QINZ'][riga] - self.QtaRiga[x]
 
-                      # 2013-08 retain piatti venduti 
+                      # 2013-08 retain piatti venduti
                       self.r['QVEND'][riga] = self.r['QVEND'][riga] + self.QtaRiga[x]
-                    
+
                       if self.debug == 1 :
                          print "updated  ", piatti_log[y], "QRES: ", self.r['QRES'][riga]
                       tmp_totmenu = tmp_totmenu + self.TotaliRiga[x]
