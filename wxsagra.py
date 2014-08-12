@@ -859,12 +859,12 @@ class WxSagra(wx.Frame):
                 self.menu_data_ora = int(self.r[box][item])
             if item == "menu_progr" :
                 self.menu_progr = int(self.r[box][item])
-        
-        # warning message about using debug = 1 during real session 
+
+        # warning message about using debug = 1 during real session
         if (self.debug == 1):
             dlg = MessageDialog(" pay attention - Debug = 1 in inifile  can introduce problems in real session  ", 'Info', 5)
             dlg.ShowModal()
-     
+
         # check inifile - portate cannot contain , ;
         # used in log file piattixxxxxx.csv to delimit field
         flag_inifile = 0
@@ -1423,6 +1423,13 @@ class WxSagra(wx.Frame):
         self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
 
+        # special mod for menu festeggiamento USD Cogornese 50 anni- 07-2014
+        # auto increment also item 2 and item 3
+        # self.OnPrimi_2(True)
+        # self.OnPrimi_3(True)
+        #
+
+
     def OnPrimi_2(self, event):
         # self.model.set("Barney", "Rubble")
         # get value return string -
@@ -1742,6 +1749,12 @@ class WxSagra(wx.Frame):
         self.textFields[item].SetFocus()
         self.textFields[item].SetSelection(-1, -1)
         # textFields - bottontext is binded on change to self.TotalCalc(0)
+
+        # special mod for menu festeggiamento USD Cogornese 50 anni- 07-2014
+        # auto increment also item 2 and item 3
+        # self.OnContorni_2(True)
+        # self.OnContorni_3(True)
+        #
 
     def OnContorni_2(self, event):
         # self.model.set("Barney", "Rubble")
