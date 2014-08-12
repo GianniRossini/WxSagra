@@ -859,7 +859,12 @@ class WxSagra(wx.Frame):
                 self.menu_data_ora = int(self.r[box][item])
             if item == "menu_progr" :
                 self.menu_progr = int(self.r[box][item])
-
+        
+        # warning message about using debug = 1 during real session 
+        if (self.debug == 1):
+            dlg = MessageDialog(" pay attention - Debug = 1 in inifile  can introduce problems in real session  ", 'Info', 5)
+            dlg.ShowModal()
+     
         # check inifile - portate cannot contain , ;
         # used in log file piattixxxxxx.csv to delimit field
         flag_inifile = 0
