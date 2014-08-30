@@ -66,7 +66,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-script_version = "1.09 - 20130818"
+script_version = "1.10 - 20140828"
 
 # ----------------------------------------------------------
 # variable required by class Document
@@ -767,7 +767,8 @@ class WxSagra(wx.Frame):
                 size=(784, 640))
 
         self.statustxt = self.CreateStatusBar()
-        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version)
+        #2014 inserito voce di menu per ripulire le prove prima di iniziare la sessione
+        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version + " inizio attivita'")
         self.LastState = 0
         self.InfoPortatePanel = ""
         if sys.platform[:3].lower() == "win" :
@@ -778,8 +779,9 @@ class WxSagra(wx.Frame):
 
         # Set up the menu.
         filemenu = wx.Menu()
-        #filemenu.Append(ID_NEW, "&New\tCtrl+N", " Create a New xxxxx")
-        #wx.EVT_MENU(self, ID_NEW, self.OnNew)
+        #2014 inserito voce di menu per ripulire le prove prima di iniziare la sessione
+        filemenu.Append(ID_NEW, "&Ripulisci x iniziare\tCtrl+R", "Ripulisci x inizio attività")
+        wx.EVT_MENU(self, ID_NEW, self.OnNew)
         filemenu.Append(ID_OPEN, "&Modifica portate\tCtrl+M", " Open portate.ini")
         wx.EVT_MENU(self, ID_OPEN, self.OnOpen)
         self.menu_save = filemenu.Append(ID_SAVE, "&Save\tCtrl+S", " Save an Add xx")
@@ -2456,6 +2458,9 @@ class WxSagra(wx.Frame):
                       temp_res = self.r['QINZ'][item] - self.r['QVEND'][item]- tempqta
                       if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
+                        # 2014 - colorize terminated items
+                        if temp_res <= 0 :
+                            self.labelFields[item].SetBackgroundColour((255,0,0))
                       else:
                         self.labelFields[item].SetLabel("")
 
@@ -2470,6 +2475,9 @@ class WxSagra(wx.Frame):
                       temp_res = self.r['QINZ'][item] - self.r['QVEND'][item]- tempqta
                       if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
+                        # 2014 - colorize terminated items
+                        if temp_res <= 0 :
+                            self.labelFields[item].SetBackgroundColour((255,0,0))
                       else:
                         self.labelFields[item].SetLabel("")
 
@@ -2485,6 +2493,9 @@ class WxSagra(wx.Frame):
                       # print "test ", item, "VENDUTI", self.r['QVEND'][item],"-QINZ", self.r['QINZ'][item], "-QRES", self.r['QRES'][item]
                       if (self.r['QINZ'][item] <> -1) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
+                        # 2014 - colorize terminated items
+                        if temp_res <= 0 :
+                            self.labelFields[item].SetBackgroundColour((255,0,0))
                       else:
                         self.labelFields[item].SetLabel("")
 
@@ -2499,6 +2510,9 @@ class WxSagra(wx.Frame):
                       temp_res = self.r['QINZ'][item] - self.r['QVEND'][item]- tempqta
                       if (self.r['QINZ'][item] >= 0) :
                         self.labelFields[item].SetLabel("%d" % temp_res)
+                        # 2014 - colorize terminated items
+                        if temp_res <= 0 :
+                            self.labelFields[item].SetBackgroundColour((255,0,0))
                       else:
                         self.labelFields[item].SetLabel("")
 
@@ -2633,6 +2647,10 @@ class WxSagra(wx.Frame):
            self.Piatti_Log_init( piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
            # print piatti_log
 
+           #2014 inserito voce di menu per ripulire le prove prima di iniziare la sessione
+           # remove inizio attività form status line
+           self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version )
+
         # print  "\n  Update array -piatt_log - cvs" ;
         self.Piatti_Log_update(piatti_log, "Primi", "Secondi", "Contorni", "Bevande")
         self.menunumero = piatti_log[0][2]
@@ -2676,6 +2694,7 @@ class WxSagra(wx.Frame):
             save_tabbed_file(filename, piatti_log)
         # end omaggi
 
+        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version )
         self.OnAnnulla(True)
 
 
@@ -3026,6 +3045,31 @@ class WxSagra(wx.Frame):
             dlg.Destroy()
         except e :
             self.ShowErrorBox(e, "Unable to Display Help")
+
+    def OnNew(self, e) :
+        """Clear log file of the day - to start from 0 menu """
+        try :
+            now = datetime.datetime.now()
+            filename =  "piatti"+ str(now.strftime("%Y-%m-%d")) + ".csv"
+            if os.path.exists(filename):
+                print " cancello " + filename
+                os.remove(filename)
+        except e :
+            self.ShowErrorBox(e, "per oggi non abbiamo ancora fatto nulla")
+
+        # clear for next menu
+        self.val_TotPrec.SetValue("%.2f" % self.totmenu)
+        self.val_TotalTicketPrec.SetLabel("ticket menu prec %.2f" % self.total_ticket)
+        #2014 inserito voce di menu per ripulire le prove prima di iniziare la sessione
+        self.menu_progr = 0
+        self.menunumero = 0
+        dt = str(now.strftime("%d-%m-%Y %H:%M:%S"))
+        self.datatime_menuprogr.SetLabel(dt)
+        self.statustxt.SetStatusText("Welcome to wxSagra by Gianni Rossini!- v " + script_version + " inizio attivita'")
+
+        self.OnAnnulla(True)
+
+
 
     def OnOpen(self, e) :
         """Open portate.ini with editor """
